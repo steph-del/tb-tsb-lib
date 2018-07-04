@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  width: 100%
+}
+
+mat-form-field {
+  &.fullWidth {
+    width: 100%;
+    padding-right: 5px;
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.repo-description {
+  display: block;
+  margin-top: 10px;
+  font-size: .8em;
+  color: grey;
+  width: fit-content;
+}

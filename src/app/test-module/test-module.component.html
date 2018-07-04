@@ -1,0 +1,148 @@
+<h2>test module</h2>
+
+<div style="background-color: #CBCBCB;padding-bottom: 20px;">
+  <h2>@Input parameters</h2>
+  <!-- default repo-->
+  <div>
+    <span>defaultRepository : <i>{{_defaultRepository}}</i></span>
+  </div>
+
+  <!-- level -->
+  <div>
+    <span>level :</span>
+    <select [formControl]="inputForm.controls.level">
+      <option value="idiotaxon">idiotaxon</option>
+      <option value="synusy">synusy</option>
+      <option value="microcenosis">microcenosis</option>
+      <option value="phytocenosis">phytocenosis</option>
+    </select>
+  </div>
+
+  <!-- autoComplete -->
+  <div>
+    <span>autoComplete :</span>
+    <input [formControl]="inputForm.controls.autoComplete" type="checkbox">
+  </div>
+
+  <!-- autoResetWhenSelected -->
+  <div>
+    <span>autoResetWhenSelected :</span>
+    <input [formControl]="inputForm.controls.autoResetWhenSelected" type="checkbox">
+  </div>
+
+  <!-- allowUnvalidatedData -->
+  <div>
+    <span>allowUnvalidatedData :</span>
+    <input [formControl]="inputForm.controls.allowUnvalidatedData" type="checkbox">
+  </div>
+
+  <!-- showRepositoryInput -->
+  <div>
+    <span>showRepositoryInput :</span>
+    <input [formControl]="inputForm.controls.showRepositoryInput" type="checkbox">
+  </div>
+
+  <!-- showRepositoryDescription -->
+  <div>
+    <span>showRepositoryDescription :</span>
+    <input [formControl]="inputForm.controls.showRepositoryDescription" type="checkbox">
+  </div>
+
+  <!-- hintRepoLabel -->
+  <div>
+    <span>hintRepoLabel :</span>
+    <input [formControl]="inputForm.controls.hintRepoLabel" type="checkbox">
+  </div>
+
+  <!-- floatLabel -->
+  <div>
+    <span>floatLabel :</span>
+    <select [formControl]="inputForm.controls.floatLabel">
+      <option value="float">float</option>
+      <option value="never">never</option>
+    </select>
+  </div>
+
+  <!-- fullWidth -->
+  <div>
+    <span>inputFullWidth :</span>
+    <input [formControl]="inputForm.controls.inputFullWidth" type="checkbox">
+  </div>
+
+  <!-- placeholder -->
+  <div>
+    <span>placeholder :</span>
+    <input [formControl]="inputForm.controls.placeholder">
+  </div>
+
+  <!-- showAuthor -->
+  <div>
+    <span>showAuthor :</span>
+    <input [formControl]="inputForm.controls.showAuthor" type="checkbox">
+  </div>
+
+  <!-- attachRawData -->
+  <div>
+    <span>attachRawData :</span>
+    <input [formControl]="inputForm.controls.attachRawData" type="checkbox">
+  </div>
+
+</div>
+
+<div style="border: 2px solid green;margin-top: 20px;margin-bottom: 20px;padding: 10px;">
+  <tb-tsb-search-box
+    [level]="inputForm.controls.level.value"
+    [autoComplete]="inputForm.controls.autoComplete.value"
+    [autoResetWhenSelected]="inputForm.controls.autoResetWhenSelected.value"
+    [defaultRepository]="_defaultRepository"
+    [allowUnvalidatedData]="inputForm.controls.allowUnvalidatedData.value"
+    [showRepositoryInput]="inputForm.controls.showRepositoryInput.value"
+    style="width:100%;"
+    [inputFullWidth]="inputForm.controls.inputFullWidth.value"
+    [placeholder]="inputForm.controls.placeholder.value"
+    [floatLabel]="inputForm.controls.floatLabel.value"
+    [hintRepoLabel]="inputForm.controls.hintRepoLabel.value"
+    [showAuthor]="inputForm.controls.showAuthor.value"
+    [showRepositoryDescription]="inputForm.controls.showRepositoryDescription.value"
+    [attachRawData]="inputForm.controls.attachRawData.value"
+    (selectedData)="selectedData($event)"
+    (allResults)="receviedAllResults($event)"
+  ></tb-tsb-search-box>
+</div>
+
+<div style="background-color: #CBCBCB;padding-bottom: 20px;">
+  <h2>@Output</h2>
+  <div>
+    <div>
+      <b>selectedData :</b>
+      <ul>
+        <li>selectedData.repository : <i>{{_selectedData?.repository}}</i></li>
+        <li>selectedData.idTaxo : <i>{{_selectedData?.idTaxo}}</i></li>
+        <li>selectedData.idNomen : <i>{{_selectedData?.idNomen}}</i></li>
+        <li>selectedData.name : <i>{{_selectedData?.name}}</i></li>
+        <li>selectedData.author : <i>{{_selectedData?.author}}</i></li>
+      </ul>
+    </div>
+
+    <div>
+      <b>allResults :</b>
+      <span>(only if autoComplete === false)</span>
+      <ul>
+        <li *ngFor="let data of _allResults">
+          {{ data.idTaxo }} / {{ data.idNomen }} / {{ data.name }} {{ data.author }}
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <b>rawData :</b>
+      <span>(only if rawData === true && autoComplete === true)</span>
+      <ul>
+        <li *ngFor="let rd of printObject(_selectedData?.rawData)">
+          {{ rd }}
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>

@@ -121,6 +121,46 @@
           }
         }
       }
+    },
+    "tb-tsb-lib": {
+      "root": "projects/tb-tsb-lib",
+      "sourceRoot": "projects/tb-tsb-lib/src",
+      "projectType": "library",
+      "prefix": "tb-tsb",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/tb-tsb-lib/tsconfig.lib.json",
+            "project": "projects/tb-tsb-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/tb-tsb-lib/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tb-tsb-lib/src/test.ts",
+            "tsConfig": "projects/tb-tsb-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/tb-tsb-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/tb-tsb-lib/tsconfig.lib.json",
+              "projects/tb-tsb-lib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "tb-tsb-lib-app"

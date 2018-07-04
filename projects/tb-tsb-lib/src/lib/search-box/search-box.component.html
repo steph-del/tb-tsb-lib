@@ -1,0 +1,38 @@
+<div *ngIf="noOneRepositoryError">
+    <mat-chip-list><mat-chip>{{ noOneRepositoryErrorMessage }}</mat-chip></mat-chip-list>
+</div>
+
+<div *ngIf="!noOneRepositoryError" class="container">
+  <!-- Repositories list -->
+  <mat-form-field [hidden]="!showRepositoryInput" [floatLabel]="floatLabel" style="max-width: 100px;">
+    <mat-select [disabled]="fixedRepository != null" [formControl]="form.controls.repository" placeholder="Référentiel">
+      <mat-option *ngFor="let repo of listRepo" [value]="repo.value">
+        {{ repo.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Input field -->
+  <mat-form-field [class.fullWidth]="inputFullWidth" [floatLabel]="floatLabel" [hintLabel]="hintRepoLabel?hintRepoLabelMessage():''">
+    <input matInput [formControl]="form.controls.input"
+                    placeholder="{{ inputPlaceholder() }}"
+                    [matAutocomplete]="auto"
+                    [matAutocompleteDisabled]="autoComplete?false:true"
+                    (keyDown.enter)="keyDownEnter()"
+                    [errorStateMatcher]="matcher"
+                    >
+    <mat-autocomplete #auto="matAutocomplete" [autoActiveFirstOption]=true [displayWith]="displayInputWith">
+      <mat-option *ngFor="let item of dataFromRepo" [value]="item">
+        <span>{{ item.name + (showAuthor ? (' ' + item.author) : '') }}</span>
+      </mat-option>
+    </mat-autocomplete>
+    <mat-spinner *ngIf="isLoading" matSuffix diameter="18"></mat-spinner>
+  </mat-form-field>
+</div>
+
+<!-- Repository description -->
+<div [hidden]="!showRepositoryDescription">
+  <div class="repo-description" [hidden]="!showRepositoryDescription">
+      "{{ currentRepository }}" : {{ repositoryDescriptionTooltip() }}
+  </div>
+</div>

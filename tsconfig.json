@@ -15,6 +15,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "tb-tsb-lib": [
+        "dist/tb-tsb-lib"
+      ],
+      "tb-tsb-lib/*": [
+        "dist/tb-tsb-lib/*"
+      ]
+    }
   }
 }

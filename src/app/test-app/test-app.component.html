@@ -1,0 +1,29 @@
+<h2>test app</h2>
+<div>Entrez une liste d'espèces</div>
+<br />
+<a href="">test-app.component.html</a><br />
+<a href="">test-app.component.ts</a><br /><br /><br />
+
+<tb-tsb-search-box
+(selectedData)="selectedData($event)"
+placeholder="Ajouter une espèce"
+defaultRepository="bdtfx"></tb-tsb-search-box>
+
+<br /><br />
+
+<table>
+  <tr>
+    <th>Référentiel</th>
+    <th>ID nomenclatural</th>
+    <th>ID taxonomique</th>
+    <th>Nom</th>
+    <th>Auteur</th>
+  </tr>
+  <tr *ngFor="let taxon of taxons">
+    <td>{{ taxon.repository }}</td>
+    <td>{{ taxon.idNomen }}</td>
+    <td>{{ taxon.idTaxo }}</td>
+    <td>{{ taxon.name }}</td>
+    <td>{{ taxon.author }}</td>
+  </tr>
+</table>

@@ -21,7 +21,7 @@
                     (keyDown.enter)="keyDownEnter()"
                     [errorStateMatcher]="matcher"
                     >
-    <mat-autocomplete #auto="matAutocomplete" [autoActiveFirstOption]=true [displayWith]="displayInputWith">
+    <mat-autocomplete #auto="matAutocomplete" [autoActiveFirstOption]=true [displayWith]="showAuthor?displayInputWithAuthor.bind(this):displayInputWithoutAuthor.bind(this)">
       <mat-option *ngFor="let item of dataFromRepo" [value]="item">
         <span>{{ item.name + (showAuthor ? (' ' + item.author) : '') }}</span>
       </mat-option>

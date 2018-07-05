@@ -108,7 +108,6 @@ export class SearchBoxComponent implements OnInit {
           value.repository = this.currentRepository;
           this.selectedData.next(value as RepositoryItemModel);
           this.dataFromRepo = [];
-          this.form.controls.input.patchValue(value.name, { emitEvent: false });
           this.isLoading = false;
 
           // if autoReset, reset the input
@@ -230,10 +229,29 @@ export class SearchBoxComponent implements OnInit {
     return placeholder;
   }
 
-  // By default, the input (the trigger) of Material Autocomplete display the 'name' of the data
-  displayInputWith(value): string {
-    return typeof(value) === 'object' ? value.name : value;
+  /**
+   * Be careful, this method and the next one are called by Angular Material Autocomplete component
+   * and can't access to 'this'. That's why there is 2 methods regarding of this.showAuthor value (checked in the view)
+   * Alternative : could .bind(this) from the view (not tested)
+   * @param value could be a string or an object from Angular Material
+   */
+  displayInputWithAuthor(value): string {
+    if (typeof(value) === 'object') {
+      if (value.author &&  value.author !== '') {
+        return value.name + ' ' + value.author;
+      } else {
+        return value.name;
+      }
+    } else {
+      return value;
+    }
+  }
 
+  /**
+   * @param value coul be a string or an object from Angular Material
+   */
+  displayInputWithoutAuthor(value): string {
+    return typeof(value) === 'object' ? value.name : value;
   }
 
   switchRepositoryIsHidden() {

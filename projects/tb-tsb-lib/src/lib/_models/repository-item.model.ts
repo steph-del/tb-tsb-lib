@@ -11,5 +11,6 @@ export interface RepositoryItemModel {
   idTaxo: number | string;
   name: string;
   author: string;
+  isSynonym: boolean;
   rawData: any;
 }

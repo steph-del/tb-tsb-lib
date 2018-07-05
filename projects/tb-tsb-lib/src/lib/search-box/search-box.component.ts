@@ -141,7 +141,7 @@ export class SearchBoxComponent implements OnInit {
   keyDownEnter() {
     if (this._allowUnvalidatedData && this.currentRepository === 0) {
       // response model
-      const rimResponse: RepositoryItemModel = {id: null, repository: null, idNomen: null, idTaxo: null, name: null, author: null, rawData: null};
+      const rimResponse: RepositoryItemModel = {id: null, repository: null, idNomen: null, idTaxo: null, name: null, author: null, isSynonym: null, rawData: null};
 
       // send new response
       rimResponse.name = this.form.controls.input.value;

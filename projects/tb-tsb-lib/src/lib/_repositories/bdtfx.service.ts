@@ -49,12 +49,13 @@ export class BdtfxRepositoryService implements RepositoryModel {
     const sData: Array<RepositoryItemModel> = [];
 
     rawData.forEach(item => {
-      const rim: RepositoryItemModel = {id: null, repository: null, name: null, author: null, idTaxo: null, idNomen: null, rawData: null};
+      const rim: RepositoryItemModel = {id: null, repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
       rim.id = item[1];
       rim.name = item[3];
       rim.author = item[0].substr(item[3].length + 1, (item[0].length - item[3].length));
       rim.idTaxo = null;
       rim.idNomen = item[1];
+      rim.isSynonym = (+item[2] === 4 ? true : false);
       if (attachRawData) { rim.rawData = item; }
       sData.push(rim);
       });

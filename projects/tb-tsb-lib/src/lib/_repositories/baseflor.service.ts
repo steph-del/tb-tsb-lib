@@ -114,7 +114,7 @@ export class BaseflorRepositoryService implements RepositoryModel {
     // Get results from elasticsearch (= remove metadata)
     rawData = this.filter(rawData);
     rawData.forEach((item) => {
-      const rim: RepositoryItemModel = {id: null, repository: null, name: null, author: null, idTaxo: null, idNomen: null, rawData: null};
+      const rim: RepositoryItemModel = {id: null, repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
       rim.id = item.bdnff_nomen_id;
       rim.name = item.scientific_name;
       rim.author = '';

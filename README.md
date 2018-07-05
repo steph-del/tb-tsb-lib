@@ -1,58 +1,41 @@
 
-# TB TaxoSearchBox Application
+# TB TaxoSearchBox
 
 L'application est composée de 3 projets :
 
-- **tb-tsb-lib-app** : l'application elle-même, qui sert à faire tourner la librairie
 - **tb-tsb-lib** : la librairie
+- **tb-tsb-lib-app** : l'application qui fait tourner la librairie (test)
 - **tb-tsb-lib-app-e2e** : les tests e2e (généré automatiquement par Angular)
 
-Voir le fichier **angular.json** à la racine du projet.
 
-## Installation
 
-- `yarn add http://psing.e-veg.net/tb-tsb-lib-0.0.1.tgz`
-- ou `npm install http://psing.e-veg.net/tb-tsb-lib-0.0.1.tgz`
-- Voir les dépendances (peer dependencies) de la librairie (angular/common, /core, /material, /cdk et rxjs)
+Voir le fichier [**angular.json**](https://github.com/steph-del/tb-tsb-lib/blob/master/angular.json) à la racine du projet.
+
+## Installation de la librairie
+
+- `yarn add http://psing.e-veg.net/tb-tsb-lib-0.0.1.tgz` (chemin à changer)
+- ou `npm install http://psing.e-veg.net/tb-tsb-lib-0.0.1.tgz` (chemin à changer)
+- Dasn l'appli principale, vérifier les versions des dépendances (peer dependencies) de la librairie (angular/common, /core, /material, /cdk et rxjs)
 - Importer un thème angular material dans le fichier css de l'application principale
 - Ajouter les icones Material dans l'index.html de l'application principale :
 `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
 
 Importer `TbTsbLibModule` dans `app.module.ts` :`import { TbTsbLibModule } from 'tb-tsb-lib'`
 
+## Utilisation du composant `<tb-tsb-search-box>`
+
+Exemple d'utilisation :
+[**Application test**](https://github.com/steph-del/tb-tsb-lib/tree/master/src/app/test-app)
 
 
-## Fonctionnement
+### Paramètres en entrée @Input
 
-La librairie propose un composant et un service.
-- le composant `<tb-tsb-search-box></tb-tsb-search-box>`
-- le service `repositoryService`
+Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insérer la balise `<tb-tsb-search-box></tb-tsb-search-box>`, ça fonctionne avec, par défault le niveau "idiotaxon" (=espèce) et le premier référentiel disponible.
 
-### Standarisation des données
-Les données en provenance d'un référentiel sont standardisées avant d'être utilisées dans le module (et donc avant d'être renvoyées par le module). Ainsi, le module peut traiter de la même façon n'importe quel référentiel.
-Ex :
-```flow
-st=>start: baseflor item
-op=>operation: repositoryService.standradize()
-e=>end: RepositoryItem object
-st->op->e
-```
 
-> baseflor item: `{ bdnff_nomen_id: 50284, bdnff_taxin_nomen: 7075, scientific_name: 'Poa annua L.', biological_type: 'test(hbis)', ... }`
->
-> RepositoryItem: `{ id: 50284, idNomen: 50284, idTaxo: 7075, name: 'Poa annua', author: 'L.', rawData?: Object }`
->
-> `rawData` est attaché à un RepositoryItem seulement si demandé. Il contient, sous form d'objet, tous les champs du référentiels inital (non standardisés)
-
-## Utilisation
-
-### Composant `<tb-tsb-search-box>`
-
-Par défaut, aucun paramètre n'est obligatoire.
-
-| Paramètre | Requis | Type | Valeurs | Valeur par défaut | Description
-|--|--|--|--|--|--|--|
-| level |  | string | "idiotaxon", "synusy", "microcenosis", etc. | "idiotaxon" | le niveau d'intégration. Pour le Cel, ce sera toujours 'idiotaxon' |
+| Paramètre | Requis | Type     | Valeurs | Valeur par défaut | Description |
+| ---       | ---    | ---      | ---     | ---               | ---         |
+| level     |        | string   | "idiotaxon", "synusy", "microcenosis", etc. | "idiotaxon" | le niveau d'intégration. Pour le Cel, ce sera toujours 'idiotaxon' |
 | defaultRepository |  | string | un nom de référentiel | Le premier accessible | référentiel à utiliser par défaut |
 | fixedRepository |  | string | un nom de référentiel | - | forcer l'utilisation d'un référentiel |
 | allowUnvalidatedData |  | boolean |  | true | autoriser la saisie d'une donnée hors référentiel |
@@ -67,10 +50,26 @@ Par défaut, aucun paramètre n'est obligatoire.
 | showRepositoryDescription |  | boolean |  | false | affiche la description du référentiel |
 | attachRawData |  | boolean |  | false | ajoute l'objet rawData à la réponse |
 
-### RepositoryService
-Pour l'instant, deux fonctions utiles :
-- `listAllRepositories`
-- `getRepoAccordingToLevel(level)`
+### Paramètres en sortie @Output
+
+| Propriété          | Valeur(s)                     | Description |
+| ---                | ---                           | ---         |
+| selectedData       | RepositoryItemModel \| null   | selectedData est renvoyé quand l'utilisateur à selecionné une donnée |
+| selectedRepository | Array<RepositoryItemModel> \| null | selectedRepository est renvoyé quand l'utilisateur à changé de référentiel |
+| allResults         | Array<RepositoryItemModel> \| null | allResults est renvoyé dès que l'utilisateur entre un terme dans le champ de recherche ET si l'option autoComplete === false. Je ne pense pas que ce soit utile pour le Cel. |
+
+
+RepositoryItemModel :
+
+| Propriété   | Type             | Commentaire |
+| ---         | ---              | ---         |
+| id          | number \| string | par défaut, c'est l'id nomenclatural |
+| repository  | string |
+| idNomen     | number \| string
+| idTaxo      | number \| string
+| name        | string
+| author      | string
+| rawData     | any
 
 ## Serveur de développement
 

@@ -29,9 +29,9 @@ export class SearchBoxComponent implements OnInit {
     this.initRepo();
   }
   @Input() defaultRepository = '';                    // set a default repository (auto selected)
-  @Input() set fixedRepository(value: string | number) {  // fix a choosen repository (0 == noOne/unknow)
+  @Input() set fixedRepository(value: string) {       // fix a choosen repository (0 == noOne/unknow)
     this._fixedRepository = value;
-    value !== '' || +value !== 0 ? this.form.controls.repository.disable() : this.form.controls.repository.enable();
+    value !== '' ? this.form.controls.repository.disable() : this.form.controls.repository.enable();
   }
   @Input() set allowUnvalidatedData(value: boolean) { // user can enter data that is not present in a repository
     this._allowUnvalidatedData = value;
@@ -55,14 +55,14 @@ export class SearchBoxComponent implements OnInit {
   // VARS
   _level = 'idiotaxon';                               // default value
   _allowUnvalidatedData = true;
-  _fixedRepository: string | number;
+  _fixedRepository: string;
 
   noOneRepositoryError = false;
   noOneRepositoryErrorMessage: string;
   form: FormGroup;
   dataFromRepo: Array<RepositoryItemModel> = [];
-  listRepo: Array<{value: string | 0, label: string}> = [{value: '', label: ''}];
-  currentRepository: string | number;
+  listRepo: Array<{value: string, label: string}> = [{value: '', label: ''}];
+  currentRepository: string;
   isLoading = false;
   matcher = new MyErrorStateMatcher();
 
@@ -99,7 +99,7 @@ export class SearchBoxComponent implements OnInit {
       (value) => {
         // value is a string = user types on keyboard,
         // request the server via repositoryService
-        if (typeof(value) === 'string' && !this.allowUnvalidatedData && this.currentRepository !== 0) {
+        if (typeof(value) === 'string' && !this.allowUnvalidatedData && this.currentRepository !== 'otherunknow') {
           // loading...
           this.isLoading = true;
 
@@ -143,7 +143,7 @@ export class SearchBoxComponent implements OnInit {
    * When user keyDown Enter
    */
   keyDownEnter() {
-    if (this._allowUnvalidatedData && this.currentRepository === 0) {
+    if (this._allowUnvalidatedData && this.currentRepository === 'otherunknow') {
       // response model
       const rimResponse: RepositoryItemModel = {repository: null, idNomen: null, idTaxo: null, name: null, author: null, isSynonym: null, rawData: null};
 
@@ -172,7 +172,7 @@ export class SearchBoxComponent implements OnInit {
 
     // Allow unvalided data ?
     if (this._allowUnvalidatedData) {
-      this.listRepo.push({value: 0, label: 'Autre/inconnu'});
+      this.listRepo.push({value: 'otherunknow', label: 'Autre/inconnu'});
     }
 
     // Default repository
@@ -199,7 +199,6 @@ export class SearchBoxComponent implements OnInit {
     // If we force a repository
     if (this._fixedRepository) {
       let foundedRepository = false;
-      this._fixedRepository = (this._fixedRepository === '0' ? 0 : this._fixedRepository);
       this.listRepo.forEach(repo => {
         if (repo.value === this._fixedRepository) { foundedRepository = true; }
       });

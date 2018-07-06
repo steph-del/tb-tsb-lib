@@ -68,8 +68,8 @@ export class RepositoryService {
    * Return an array of the names of the repositories
    * @param level
    */
-  getRepoAccordingToLevel(level): Array<{value: string | 0, label: string}> {
-    const availableRepositoryNames: Array<{value: string | 0, label: string}> = [];
+  getRepoAccordingToLevel(level): Array<{value: string, label: string}> {
+    const availableRepositoryNames: Array<{value: string, label: string}> = [];
     this.repo.forEach((repoService) => {
       if (repoService.levels.indexOf(level) > -1) { availableRepositoryNames.push({value: repoService.id, label: repoService.label}); }
     });
@@ -85,7 +85,7 @@ export class RepositoryService {
    * @param repository
    * @param query
    */
-  findDataFromRepo(repository: string | number, query: string, attachRawData: boolean = false): Observable<any> {
+  findDataFromRepo(repository: string, query: string, attachRawData: boolean = false): Observable<any> {
     if (!repository) { return empty(); }
     return this[(repository + 'RepoService')]
            .findElement(query)
@@ -97,7 +97,7 @@ export class RepositoryService {
    * @param repository
    * @param query
    */
-  findDataById(repository: string | number, query: string | number, attachRawData: boolean = false): Observable<any> {
+  findDataById(repository: string, query: string | number, attachRawData: boolean = false): Observable<any> {
     if (!repository) { return empty(); }
     return this[(repository + 'RepoService')].findById(query)
            .pipe(map(results => this[(repository + 'RepoService')].standardize(results, attachRawData)));
@@ -109,7 +109,7 @@ export class RepositoryService {
    * @param repository
    * @param query
    */
-  findDataByIdNomen(repository: string | number, query: string | number | Array<string | Number>, attachRawData: boolean = false): Observable<any> {
+  findDataByIdNomen(repository: string, query: string | number | Array<string | Number>, attachRawData: boolean = false): Observable<any> {
     if (!repository) { return empty(); }
     return this[(repository + 'RepoService')].findByIdNomen(query)
            .pipe(map(results => this[(repository + 'RepoService')].standardize(results, attachRawData) ));
@@ -121,7 +121,7 @@ export class RepositoryService {
    * @param repository
    * @param query
    */
-  findDataByIdNomenWithoutStandardize(repository: string | number, query: string | number | Array<string | Number>): Observable<any> {
+  findDataByIdNomenWithoutStandardize(repository: string, query: string | number | Array<string | Number>): Observable<any> {
     if (!repository) { return empty(); }
     return this[(repository + 'RepoService')].findByIdNomen(query)
            .pipe(map(results => this[(repository + 'RepoService')].getResultsWithoutMetadata(results) ));
@@ -133,15 +133,15 @@ export class RepositoryService {
    * @param repository
    * @param query
    */
-  findDataByIdTaxo(repository: string | number, query: string | number, attachRawData: boolean = false): Observable<any> {
+  findDataByIdTaxo(repository: string, query: string | number, attachRawData: boolean = false): Observable<any> {
     if (!repository) { return empty(); }
     return this[(repository + 'RepoService')].findByIdTaxo(query)
            .pipe(map(results => this[(repository + 'RepoService')].standardize(results, attachRawData)));
            // .catch((error) => empty());
   }
 
-  getRepositoryDescription(repository: string | number): String {
-    if (!repository || repository === 0 || repository === '0') { return ''; }
+  getRepositoryDescription(repository: string): String {
+    if (!repository || repository === 'otherunknow') { return ''; }
     return this[(repository + 'RepoService')].description_fr;
   }
 

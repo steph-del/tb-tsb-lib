@@ -5,7 +5,7 @@
  * Each data from a repository must follow (implements) this model
  */
 export interface RepositoryItemModel {
-  repository: string | 0;
+  repository: string;
   idNomen: number | string;
   idTaxo: number | string;
   name: string;

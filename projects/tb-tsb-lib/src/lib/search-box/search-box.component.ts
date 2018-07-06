@@ -1,10 +1,10 @@
-import { Component, OnInit, EventEmitter, Input, Output, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Input, Output, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { RepositoryService } from '../_services/repository.service';
 import { RepositoryItemModel } from '../_models/repository-item.model';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 
 /**
  * Override default Angular Material ErrorState
@@ -22,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss']
 })
-export class SearchBoxComponent implements OnInit {
+export class SearchBoxComponent implements OnInit, OnDestroy {
   @ViewChild('taxoInput') taxoInput: ElementRef;
 
   //
@@ -84,6 +84,10 @@ export class SearchBoxComponent implements OnInit {
   isEditingData = false;
   editingOccurenceId: number;                    // id of the occurence that is being edited
 
+  subscription1: Subscription;
+  subscription2: Subscription;
+  subscription3: Subscription;
+
   //
   // METHODS
   //
@@ -103,7 +107,7 @@ export class SearchBoxComponent implements OnInit {
     // Initialize repositories list and configuration
     this.initRepo();
     // Watch repository change
-    this.form.controls.repository.valueChanges.subscribe(
+    this.subscription1 = this.form.controls.repository.valueChanges.subscribe(
       (repoValue) => {
         this.currentRepository = repoValue;
         this.resetInput();
@@ -113,12 +117,12 @@ export class SearchBoxComponent implements OnInit {
     );
 
     // First watcher. Need to rapidly set isSearching to true. No better solution because of the debounceTime of the second watcher.
-    this.form.controls.input.valueChanges.subscribe(() => {
+    this.subscription2 = this.form.controls.input.valueChanges.subscribe(() => {
       this.isSearching = true;
     });
 
     // Second watcher
-    this.form.controls.input.valueChanges
+    this.subscription3 = this.form.controls.input.valueChanges
     .pipe(debounceTime(400))
     .pipe(distinctUntilChanged())
     .pipe(switchMap(
@@ -174,6 +178,15 @@ export class SearchBoxComponent implements OnInit {
         }
       }
     });
+  }
+
+  /**
+   * Unsubscribe
+   */
+  ngOnDestroy() {
+    try { this.subscription1.unsubscribe(); } catch (error) { }
+    try { this.subscription2.unsubscribe(); } catch (error) { }
+    try { this.subscription3.unsubscribe(); } catch (error) { }
   }
 
   /**

@@ -12,7 +12,7 @@ import { Pvf2RepositoryService } from './_repositories/pvf2.service';
 
 import { TbTsbLibComponent } from './tb-tsb-lib.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
-import { MatSelectModule, MatInputModule, MatAutocompleteModule, MatProgressSpinnerModule, MatTooltipModule, MatChipsModule, MatIconModule } from '@angular/material';
+import { MatSelectModule, MatInputModule, MatAutocompleteModule, MatProgressSpinnerModule, MatTooltipModule, MatChipsModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { RepositoryModule } from './_repositories/repository.module';
 
 @NgModule({
@@ -21,7 +21,7 @@ import { RepositoryModule } from './_repositories/repository.module';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     CommonModule,
-    MatSelectModule, MatInputModule, MatAutocompleteModule, MatProgressSpinnerModule, MatTooltipModule, MatChipsModule, MatIconModule,
+    MatSelectModule, MatInputModule, MatAutocompleteModule, MatProgressSpinnerModule, MatTooltipModule, MatChipsModule, MatIconModule, MatButtonModule,
     RepositoryModule
   ],
   declarations: [

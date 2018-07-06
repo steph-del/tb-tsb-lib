@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { RepositoryService } from '../_services/repository.service';
@@ -23,7 +23,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./search-box.component.scss']
 })
 export class SearchBoxComponent implements OnInit {
+  @ViewChild('taxoInput') taxoInput: ElementRef;
+
+  //
   // INPUT OUTPUT
+  //
   @Input() set level(value: string) {                 // value = idiotaxon, synusy, microcenosis...
     this._level = value;
     this.initRepo();
@@ -44,15 +48,22 @@ export class SearchBoxComponent implements OnInit {
   @Input() floatLabel = 'auto';                       // auto | always | never
   @Input() hintRepoLabel = true;                      // label below search box input = repo name
   @Input() placeholder = '';                          // to change the default placeholder ("Taxon" | "Syntaxon")
+  @Input() editingPlaceholder = 'Modifier une donnée';  // placeholder while editing a data
   @Input() showAuthor = true;                         // show author into search box
   @Input() showRepositoryDescription = false;
   @Input() attachRawData = false;                     // rawData is the set of data before passing through the standardize() method
+  @Input() set updateData(value: {occurenceId: number, repository: string, idNomen: string, name: string, author?: string, idTaxo?: string} | null) {
+    if (value !== null) { this.startEditingTaxo(value); }
+  }
 
   @Output() selectedData = new EventEmitter<RepositoryItemModel | null>();
+  @Output() updatedData = new EventEmitter<{occurenceId: number, repository: string, idTaxo: string, idNomen: string, name: string, author: string} | null>();
   @Output() selectedRepository = new EventEmitter<string | number>();
   @Output() allResults = new EventEmitter<any>();
 
+  //
   // VARS
+  //
   _level = 'idiotaxon';                               // default value
   _allowUnvalidatedData = true;
   _fixedRepository: string;
@@ -63,9 +74,16 @@ export class SearchBoxComponent implements OnInit {
   dataFromRepo: Array<RepositoryItemModel> = [];
   listRepo: Array<{value: string, label: string}> = [{value: '', label: ''}];
   currentRepository: string;
+  lastUsedRepositoryValue: string;               // used when updateTaxo
+  lastPlaceholderValue: string;                  // idem
   isLoading = false;
   matcher = new MyErrorStateMatcher();
+  isEditingData = false;
+  editingOccurenceId: number;                    // id of the occurence that is being edited
 
+  //
+  // METHODS
+  //
   constructor(private fb: FormBuilder, private repositoryService: RepositoryService) {
     // Create the form
     // This code is not inside the ngOnInit function because it's called by @Input set level() before ngOnInit is call
@@ -99,7 +117,7 @@ export class SearchBoxComponent implements OnInit {
       (value) => {
         // value is a string = user types on keyboard,
         // request the server via repositoryService
-        if (typeof(value) === 'string' && !this.allowUnvalidatedData && this.currentRepository !== 'otherunknow') {
+        if (typeof(value) === 'string' && this.currentRepository !== 'otherunknow') {
           // loading...
           this.isLoading = true;
 
@@ -110,7 +128,19 @@ export class SearchBoxComponent implements OnInit {
         // no need to request the server
         } else if (typeof(value) === 'object') {
           value.repository = this.currentRepository;
-          this.selectedData.next(value as RepositoryItemModel);
+          if (!this.isEditingData) {
+            this.selectedData.next(value as RepositoryItemModel);
+          } else {
+            this.updatedData.next({
+              occurenceId: this.editingOccurenceId,
+              repository: value.repository,
+              idTaxo: value.idTaxo,
+              idNomen: value.idNomen,
+              name: value.name,
+              author: value.author
+            });
+            this.stopEditingTaxo();
+          }
           this.dataFromRepo = [];
           this.isLoading = false;
 
@@ -147,10 +177,25 @@ export class SearchBoxComponent implements OnInit {
       // response model
       const rimResponse: RepositoryItemModel = {repository: null, idNomen: null, idTaxo: null, name: null, author: null, isSynonym: null, rawData: null};
 
-      // send new response
-      rimResponse.name = this.form.controls.input.value;
-      rimResponse.repository = this.currentRepository;
-      this.selectedData.next(rimResponse);
+      // if we are editing data
+      // emit an updatedData event
+      if (this.isEditingData) {
+        this.updatedData.next({
+          occurenceId: this.editingOccurenceId,
+          repository: 'otherunknow',
+          idTaxo: null,
+          idNomen: null,
+          name: this.form.controls.input.value,
+          author: null
+        });
+        this.stopEditingTaxo();
+      // else
+      // emit a selectedData event
+      } else {
+        rimResponse.name = this.form.controls.input.value;
+        rimResponse.repository = this.currentRepository;
+        this.selectedData.next(rimResponse);
+      }
 
       // if autoReset, reset the input
       if (this.autoResetWhenSelected) { this.resetInput(); }
@@ -158,6 +203,9 @@ export class SearchBoxComponent implements OnInit {
 
   }
 
+  /**
+   * Initialize the repositories list
+   */
   initRepo() {
     // Reset noOneRepository flag
     this.noOneRepositoryError = false;
@@ -175,9 +223,8 @@ export class SearchBoxComponent implements OnInit {
       this.listRepo.push({value: 'otherunknow', label: 'Autre/inconnu'});
     }
 
-    // Default repository
+    // Set default repository
     let defaultRepoHasBeenSet = false;
-
     this.listRepo.forEach(repo => {
       if (repo.value === this.defaultRepository) {
         defaultRepoHasBeenSet = true;
@@ -209,7 +256,6 @@ export class SearchBoxComponent implements OnInit {
           valeurs ne semblent pas compatibles.
           `;
       }
-
       this.currentRepository = this._fixedRepository;
       this.form.controls.repository.setValue(this._fixedRepository);
     } else {
@@ -274,9 +320,67 @@ export class SearchBoxComponent implements OnInit {
   }
 
   resetInput() {
+    if (this.isEditingData) { return; }
     this.form.controls.input.reset('', {emitEvent: false});
     this.form.controls.input.markAsUntouched();
     this.form.controls.input.markAsPristine();
+  }
+
+  /**
+   * Set the repository. Throw an error if repository can't be found.
+   */
+  setRepository(repository: string): void {
+    let foundedRepository = false;
+
+    this.listRepo.forEach(repo => {
+      if (repo.value === repository) {
+        foundedRepository = true;
+        this.currentRepository = repository;
+        this.form.controls.repository.setValue(repo.value, {emitEvent: false});
+      }
+    });
+
+    if (!foundedRepository) {
+      throw new Error(`Le référentiel ${repository} ne peut pas être utilisé.`);
+    }
+  }
+
+  /**
+   * Start editing data : set flags, change repository and keep initial options and values.
+   * @param value { occurenceId: number, repository: string, idNomen: string, name: string, author?: string, idTaxo?: string }
+   */
+  startEditingTaxo(value: {occurenceId: number, repository: string, idNomen: string, name: string, author?: string, idTaxo?: string}): void {
+    // Should first do an http request to check if value exists in db ?
+    this.isEditingData = true;
+    this.editingOccurenceId = value.occurenceId;
+    this.lastPlaceholderValue = this.placeholder;
+    this.placeholder = this.editingPlaceholder;
+    this.lastUsedRepositoryValue = this.currentRepository;
+    this.setRepository(value.repository);
+    // patch input data
+    const inputValue = (this.showAuthor && value.author && value.author !== '') ? value.name + ' ' + value.author : value;
+    this.form.patchValue({'input': inputValue}, {emitEvent: false});
+
+    this.taxoInput.nativeElement.focus();
+  }
+
+  /**
+   * Stop editing data : reverse what startEditingTaxo() did.
+   */
+  stopEditingTaxo(): void {
+    this.isEditingData = false;
+    this.editingOccurenceId = null;
+    this.placeholder = this.lastPlaceholderValue;
+    this.setRepository(this.lastUsedRepositoryValue);
+  }
+
+  /**
+   * Cancel editing data : reset and emit null event.
+   */
+  cancelEditingTaxo(): void {
+    this.stopEditingTaxo();
+    this.resetInput();
+    this.updatedData.next(null);
   }
 
 }

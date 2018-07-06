@@ -6,13 +6,17 @@
 
 <tb-tsb-search-box
 (selectedData)="selectedData($event)"
+[updateData]="_updateData"
+(updatedData)="updatedData($event)"
 placeholder="Ajouter une espèce"
+editingPlaceholder="Modifier l'espèce"
 defaultRepository="bdtfx"></tb-tsb-search-box>
 
 <br /><br />
 
 <table>
   <tr>
+    <th>ID (occurence)</th>
     <th>Référentiel</th>
     <th>ID nomenclatural</th>
     <th>ID taxonomique</th>
@@ -20,10 +24,14 @@ defaultRepository="bdtfx"></tb-tsb-search-box>
     <th>Auteur</th>
   </tr>
   <tr *ngFor="let taxon of taxons">
+    <td>{{ taxon.occurenceId }}</td>
     <td>{{ taxon.repository }}</td>
     <td>{{ taxon.idNomen }}</td>
     <td>{{ taxon.idTaxo }}</td>
     <td>{{ taxon.name }}</td>
     <td>{{ taxon.author }}</td>
+    <td (click)="updateData(taxon)" style="cursor: pointer;">editer</td>
   </tr>
 </table>
+<br />
+<span><i>Voir le log de la console pour les événements émis.</i></span>

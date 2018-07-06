@@ -13,8 +13,8 @@ Voir le fichier [**angular.json**](https://github.com/steph-del/tb-tsb-lib/blob/
 
 ## Installation de la librairie
 
-- `yarn add http://psing.e-veg.net/tb-tsb-lib-0.0.1.tgz` (chemin à changer)
-- ou `npm install http://psing.e-veg.net/tb-tsb-lib-0.0.1.tgz` (chemin à changer)
+- `yarn add http://psing.e-veg.net/tb-tsb-lib-0.1.0.tgz` (voir la dernière version + placer la librairie sur un serveur de Tela)
+- ou `npm install http://psing.e-veg.net/tb-tsb-lib-0.1.0.tgz`
 - Dasn l'appli principale, vérifier les versions des dépendances (peer dependencies) de la librairie (angular/common, /core, /material, /cdk et rxjs)
 - Importer un thème angular material dans le fichier css de l'application principale
 - Ajouter les icones Material dans l'index.html de l'application principale :
@@ -46,16 +46,18 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 | floatLabel |  | string | "auto", "always", "never" | "auto" | c'est un paramètre de l'input Material |
 | hintRepoLabel |  | boolean |  | true | c'est un paramètre de l'input Material |
 | placeholder |  | string | chaîne de caractères | - | pour modifier le placeholder par défaut |
+| editingPlaceholder |  | string | chaîne de caractères | 'Modifier une donnée' | placeholder lors de l'édition d'une donnée |
 | showAuthor |  | boolean |  | true | affiche les autorités dans l'autocomplete |
 | showRepositoryDescription |  | boolean |  | false | affiche la description du référentiel |
 | attachRawData |  | boolean |  | false | ajoute l'objet rawData à la réponse |
 
 ### Paramètres en sortie @Output
 
-| Propriété          | Valeur(s)                     | Description |
+| Propriété          | Valeur(s)                     | Remarque |
 | ---                | ---                           | ---         |
-| selectedData       | RepositoryItemModel \| null   | selectedData est renvoyé quand l'utilisateur à selecionné une donnée |
-| selectedRepository | Array<RepositoryItemModel> \| null | selectedRepository est renvoyé quand l'utilisateur à changé de référentiel |
+| selectedData       | RepositoryItemModel \| null   | selectedData est utilisé quand l'utilisateur à selecionné une donnée et qu'il n'est pas en train de modifier une donnée existante |
+| updatedData        | `{occurenceId: number, repository: string, idTaxo: string, idNomen: string, name: string, author: string;} | null` | updatedData est utilisé quand l'utilisateur a selectionné une nouvelle valeur pour une donnée existante. La valeur de retour est très proche de RepositoryItemModel. Il y a un juste champ occurenceId en plus. Si la valeur est null, c'est que l'utilisateur a annulé l'édition |
+| selectedRepository | Array<RepositoryItemModel> \| null | selectedRepository est renvoyé quand l'utilisateur à changé de référentiel (attention, aucune valeur n'est émise si le référentiel est changé automatiquement lors de l'édition d'une donnée) |
 | allResults         | Array<RepositoryItemModel> \| null | allResults est renvoyé dès que l'utilisateur entre un terme dans le champ de recherche ET si l'option autoComplete === false. Je ne pense pas que ce soit utile pour le Cel. |
 
 

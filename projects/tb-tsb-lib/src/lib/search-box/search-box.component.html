@@ -13,8 +13,8 @@
   </mat-form-field>
 
   <!-- Input field -->
-  <mat-form-field [class.fullWidth]="inputFullWidth" [floatLabel]="floatLabel" [hintLabel]="hintRepoLabel?hintRepoLabelMessage():''">
-    <input matInput [formControl]="form.controls.input"
+  <mat-form-field [class.fullWidth]="inputFullWidth" [color]="isEditingData?'accent':'primary'" [floatLabel]="floatLabel" [hintLabel]="hintRepoLabel?hintRepoLabelMessage():''">
+    <input #taxoInput matInput [formControl]="form.controls.input"
                     placeholder="{{ inputPlaceholder() }}"
                     [matAutocomplete]="auto"
                     [matAutocompleteDisabled]="autoComplete?false:true"
@@ -27,6 +27,9 @@
       </mat-option>
     </mat-autocomplete>
     <mat-spinner *ngIf="isLoading" matSuffix diameter="18"></mat-spinner>
+    <button mat-button [hidden]="!isEditingData || isLoading" matTooltip="Annuler la modification"  matSuffix mat-icon-button aria-label="Clear" (click)="cancelEditingTaxo()">
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
 </div>
 

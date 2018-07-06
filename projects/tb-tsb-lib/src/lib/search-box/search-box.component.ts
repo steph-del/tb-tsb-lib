@@ -29,7 +29,10 @@ export class SearchBoxComponent implements OnInit {
     this.initRepo();
   }
   @Input() defaultRepository = '';                    // set a default repository (auto selected)
-  @Input() fixedRepository: string | number = null;   // fix a choosen repository (0 == noOne/unknow)
+  @Input() set fixedRepository(value: string | number) {  // fix a choosen repository (0 == noOne/unknow)
+    this._fixedRepository = value;
+    value !== '' || +value !== 0 ? this.form.controls.repository.disable() : this.form.controls.repository.enable();
+  }
   @Input() set allowUnvalidatedData(value: boolean) { // user can enter data that is not present in a repository
     this._allowUnvalidatedData = value;
     this.initRepo();
@@ -52,6 +55,7 @@ export class SearchBoxComponent implements OnInit {
   // VARS
   _level = 'idiotaxon';                               // default value
   _allowUnvalidatedData = true;
+  _fixedRepository: string | number;
 
   noOneRepositoryError = false;
   noOneRepositoryErrorMessage: string;
@@ -66,7 +70,7 @@ export class SearchBoxComponent implements OnInit {
     // Create the form
     // This code is not inside the ngOnInit function because it's called by @Input set level() before ngOnInit is call
     this.form = this.fb.group({
-      repository: this.fb.control(''),
+      repository: this.fb.control({value: '', disabled: false}),
       input: this.fb.control('', [Validators.required])
     });
   }
@@ -193,22 +197,22 @@ export class SearchBoxComponent implements OnInit {
     }
 
     // If we force a repository
-    if (this.fixedRepository) {
+    if (this._fixedRepository) {
       let foundedRepository = false;
-      this.fixedRepository = (this.fixedRepository === '0' ? 0 : this.fixedRepository);
+      this._fixedRepository = (this._fixedRepository === '0' ? 0 : this._fixedRepository);
       this.listRepo.forEach(repo => {
-        if (repo.value === this.fixedRepository) { foundedRepository = true; }
+        if (repo.value === this._fixedRepository) { foundedRepository = true; }
       });
       if (!foundedRepository) {
         this.noOneRepositoryError = true;
         this.noOneRepositoryErrorMessage = `
-          Le module tente de forcer le référentiel '${this.fixedRepository}' pour le niveau '${this._level}' mais ces
+          Le module tente de forcer le référentiel '${this._fixedRepository}' pour le niveau '${this._level}' mais ces
           valeurs ne semblent pas compatibles.
           `;
       }
 
-      this.currentRepository = this.fixedRepository;
-      this.form.controls.repository.setValue(this.fixedRepository);
+      this.currentRepository = this._fixedRepository;
+      this.form.controls.repository.setValue(this._fixedRepository);
     } else {
       this.form.controls.repository.setValidators([Validators.required]);
     }

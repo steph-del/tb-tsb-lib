@@ -5,7 +5,7 @@
 <div *ngIf="!noOneRepositoryError" class="container">
   <!-- Repositories list -->
   <mat-form-field [hidden]="!showRepositoryInput" [floatLabel]="floatLabel" style="max-width: 100px;">
-    <mat-select [disabled]="fixedRepository != null" [formControl]="form.controls.repository" placeholder="Référentiel">
+    <mat-select [formControl]="form.controls.repository" placeholder="Référentiel">
       <mat-option *ngFor="let repo of listRepo" [value]="repo.value">
         {{ repo.label }}
       </mat-option>

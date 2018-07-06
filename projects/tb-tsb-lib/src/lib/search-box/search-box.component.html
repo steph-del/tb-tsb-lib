@@ -27,7 +27,7 @@
       </mat-option>
     </mat-autocomplete>
     <mat-spinner *ngIf="isLoading" matSuffix diameter="18"></mat-spinner>
-    <button mat-button [hidden]="!isEditingData || isLoading" matTooltip="Annuler la modification"  matSuffix mat-icon-button aria-label="Clear" (click)="cancelEditingTaxo()">
+    <button mat-button [hidden]="!isEditingData || isLoading" matTooltip="Annuler"  matSuffix mat-icon-button aria-label="Clear" (click)="cancelEditingTaxo()">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>

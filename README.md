@@ -56,7 +56,7 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 | Propriété          | Valeur(s)                     | Remarque |
 | ---                | ---                           | ---         |
 | selectedData       | RepositoryItemModel \| null   | selectedData est utilisé quand l'utilisateur à selecionné une donnée et qu'il n'est pas en train de modifier une donnée existante |
-| updatedData        | `{occurenceId: number, repository: string, idTaxo: string, idNomen: string, name: string, author: string;} | null` | updatedData est utilisé quand l'utilisateur a selectionné une nouvelle valeur pour une donnée existante. La valeur de retour est très proche de RepositoryItemModel. Il y a un juste champ occurenceId en plus. Si la valeur est null, c'est que l'utilisateur a annulé l'édition |
+| updatedData        | `{occurenceId: number, repository: string, idTaxo: string, idNomen: string, name: string, author: string;} \| null` | updatedData est utilisé quand l'utilisateur a selectionné une nouvelle valeur pour une donnée existante. La valeur de retour est très proche de RepositoryItemModel. Il y a un juste champ `occurenceId` en plus. Si la valeur est `null`, c'est que l'utilisateur a annulé l'édition |
 | selectedRepository | Array<RepositoryItemModel> \| null | selectedRepository est renvoyé quand l'utilisateur à changé de référentiel (attention, aucune valeur n'est émise si le référentiel est changé automatiquement lors de l'édition d'une donnée) |
 | allResults         | Array<RepositoryItemModel> \| null | allResults est renvoyé dès que l'utilisateur entre un terme dans le champ de recherche ET si l'option autoComplete === false. Je ne pense pas que ce soit utile pour le Cel. |
 

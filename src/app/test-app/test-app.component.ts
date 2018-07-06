@@ -44,9 +44,9 @@ export class TestAppComponent {
     console.log('Event \'updatedData\' :');
     console.log(data);
 
-    /**
-     * Here, you should register the updated data in db
-     */
+    //
+    // Here, you should register the updated data in db
+    //
 
     // for demo, we only update the data in taxons[]
     let taxonToUpdate: TaxonType;
@@ -72,10 +72,12 @@ export class TestAppComponent {
 }
 
 interface TaxonType {
-  occurenceId: number;
+  occurenceId?: number;
   repository: string;
-  idTaxo: string;
-  idNomen: string;
+  idNomen: number | string;
+  idTaxo?: number | string;
   name: string;
   author: string;
+  isSynonym?: boolean;
+  rawData?: any;
 }

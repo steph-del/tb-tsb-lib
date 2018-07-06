@@ -55,10 +55,10 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 
 | Propriété          | Valeur(s)                     | Remarque |
 | ---                | ---                           | ---         |
-| newData       | RepositoryItemModel \| null   | newData est utilisé quand l'utilisateur à selecionné une donnée (hors édition) |
-| updatedData        | `{occurenceId: number, repository: string, idTaxo: string, idNomen: string, name: string, author: string;}` | updatedData est utilisé quand l'utilisateur a selectionné une nouvelle valeur pour une donnée existante. La valeur de retour est très proche de RepositoryItemModel. Il y a un juste champ `occurenceId` en plus. |
-| cancelUpdateData   | `{occurenceId: number}` | cancelUpdateData est utilisé quand l'utilisateur à annulé l'édition d'une donnée. Renvoie l'id de l'occurence pour laquelle l'édition est annulée |
-| selectedRepository | Array<RepositoryItemModel> \| null | selectedRepository est renvoyé quand l'utilisateur à changé de référentiel (attention, aucune valeur n'est émise si le référentiel est changé automatiquement lors de l'édition d'une donnée) |
+| newData            | RepositoryItemModel           | newData est utilisé quand l'utilisateur à selecionné une donnée (hors édition) |
+| updatedData        | RepositoryItemModel           | updatedData est utilisé quand l'utilisateur a selectionné une nouvelle valeur pour une donnée existante. |
+| cancelUpdateData   | `{occurenceId: number}`       | cancelUpdateData est utilisé quand l'utilisateur à annulé l'édition d'une donnée. Renvoie l'id de l'occurence pour laquelle l'édition est annulée |
+| selectedRepository | string                        | selectedRepository est renvoyé quand l'utilisateur à changé de référentiel (attention, aucune valeur n'est émise si le référentiel est changé automatiquement lors de l'édition d'une donnée) |
 | allResults         | Array<RepositoryItemModel> \| null | allResults est renvoyé dès que l'utilisateur entre un terme dans le champ de recherche ET si l'option autoComplete === false. Je ne pense pas que ce soit utile pour le Cel. |
 
 
@@ -66,13 +66,14 @@ RepositoryItemModel :
 
 | Propriété   | Type             | Commentaire |
 | ---         | ---              | ---         |
-| repository  | string |
-| idNomen     | number \| string
-| idTaxo      | number \| string
-| name        | string
-| author      | string
-| isSynonym   | boolean
-| rawData     | any
+| occurenceId | number           | optionnel. id de l'occurence. Lors d'une édition, le champ est renseigné |
+| repository  | string           |
+| idNomen     | number \| string |
+| idTaxo      | number \| string | optionnel   |
+| name        | string           |
+| author      | string           |
+| isSynonym   | boolean          | optionnel   |
+| rawData     | any              | optionnel   |
 
 ## Serveur de développement
 

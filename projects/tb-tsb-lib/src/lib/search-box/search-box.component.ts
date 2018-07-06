@@ -52,12 +52,12 @@ export class SearchBoxComponent implements OnInit {
   @Input() showAuthor = true;                         // show author into search box
   @Input() showRepositoryDescription = false;
   @Input() attachRawData = false;                     // rawData is the set of data before passing through the standardize() method
-  @Input() set updateData(value: {occurenceId: number, repository: string, idNomen: string, name: string, author?: string, idTaxo?: string}) {
+  @Input() set updateData(value: RepositoryItemModel) {
     if (value !== null) { this.startEditingTaxo(value); }
   }
 
   @Output() newData = new EventEmitter<RepositoryItemModel>();
-  @Output() updatedData = new EventEmitter<{occurenceId: number, repository: string, idTaxo: string, idNomen: string, name: string, author: string}>();
+  @Output() updatedData = new EventEmitter<RepositoryItemModel>();
   @Output() cancelUpdateData = new EventEmitter<{occurenceId: number}>();
   @Output() selectedRepository = new EventEmitter<string | number>();
   @Output() allResults = new EventEmitter<any>();
@@ -132,14 +132,8 @@ export class SearchBoxComponent implements OnInit {
           if (!this.isEditingData) {
             this.newData.next(value as RepositoryItemModel);
           } else {
-            this.updatedData.next({
-              occurenceId: this.editingOccurenceId,
-              repository: value.repository,
-              idTaxo: value.idTaxo,
-              idNomen: value.idNomen,
-              name: value.name,
-              author: value.author
-            });
+            value.occurenceId = this.editingOccurenceId;
+            this.updatedData.next(value as RepositoryItemModel);
             this.stopEditingTaxo();
           }
           this.dataFromRepo = [];
@@ -176,7 +170,7 @@ export class SearchBoxComponent implements OnInit {
   keyDownEnter() {
     if (this._allowUnvalidatedData && this.currentRepository === 'otherunknow') {
       // response model
-      const rimResponse: RepositoryItemModel = {repository: null, idNomen: null, idTaxo: null, name: null, author: null, isSynonym: null, rawData: null};
+      const rimResponse: RepositoryItemModel = {occurenceId: null, repository: null, idNomen: null, idTaxo: null, name: null, author: null};
 
       // if we are editing data
       // emit an updatedData event
@@ -350,7 +344,7 @@ export class SearchBoxComponent implements OnInit {
    * Start editing data : set flags, change repository and keep initial options and values.
    * @param value { occurenceId: number, repository: string, idNomen: string, name: string, author?: string, idTaxo?: string }
    */
-  startEditingTaxo(value: {occurenceId: number, repository: string, idNomen: string, name: string, author?: string, idTaxo?: string}): void {
+  startEditingTaxo(value: RepositoryItemModel): void {
     // Should first do an http request to check if value exists in db ?
 
     // Check if there is already an edition in progress

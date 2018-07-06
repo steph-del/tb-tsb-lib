@@ -33,23 +33,24 @@ Exemple d'utilisation :
 Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insérer la balise `<tb-tsb-search-box></tb-tsb-search-box>`, ça fonctionne avec, par défault le niveau "idiotaxon" (=espèce) et le premier référentiel disponible.
 
 
-| Paramètre | Requis | Type     | Valeurs | Valeur par défaut | Description |
-| ---       | ---    | ---      | ---     | ---               | ---         |
-| level     |        | string   | "idiotaxon", "synusy", "microcenosis", etc. | "idiotaxon" | le niveau d'intégration. Pour le Cel, ce sera toujours 'idiotaxon' |
-| defaultRepository |  | string | un nom de référentiel | Le premier accessible | référentiel à utiliser par défaut |
-| fixedRepository |  | string | un nom de référentiel | - | forcer l'utilisation d'un référentiel |
-| allowUnvalidatedData |  | boolean |  | true | autoriser la saisie d'une donnée hors référentiel |
-| autoComplete |  | boolean |  | true | si `false`, pas d'autocomplétion, le module renvoie tous les résultats |
-| autoResetWhenSelected |  | boolean |  |  | remet l'input de saisie à zéro après la saisie |
-| showRepositoryInput |  | boolean |  | true | affiche le sélecteur de référentiels |
-| inputFullWidth |  | boolean |  | true | `width="100%"` |
-| floatLabel |  | string | "auto", "always", "never" | "auto" | c'est un paramètre de l'input Material |
-| hintRepoLabel |  | boolean |  | true | c'est un paramètre de l'input Material |
-| placeholder |  | string | chaîne de caractères | - | pour modifier le placeholder par défaut |
-| editingPlaceholder |  | string | chaîne de caractères | 'Modifier une donnée' | placeholder lors de l'édition d'une donnée |
-| showAuthor |  | boolean |  | true | affiche les autorités dans l'autocomplete |
-| showRepositoryDescription |  | boolean |  | false | affiche la description du référentiel |
-| attachRawData |  | boolean |  | false | ajoute l'objet rawData à la réponse |
+| Paramètre                 | Requis | Type     | Valeurs | Valeur par défaut | Description |
+| ---                       | ---    | ---      | ---     | ---               | ---         |
+| level                     |        | string   | "idiotaxon", "synusy", "microcenosis", etc. | "idiotaxon" | le niveau d'intégration. Pour le Cel, ce sera toujours 'idiotaxon' |
+| defaultRepository         |        | string   | un nom de référentiel | Le premier accessible | référentiel à utiliser par défaut |
+| fixedRepository           |        | string   | un nom de référentiel | - | forcer l'utilisation d'un référentiel |
+| allowEmptyRepository      |        | boolean  |         | true | autorise la saisie d'une donnée hors référentiel (ajoute un référentiel 'Autre/inconnu' à la liste des ref.) |
+| allowFreeValueIfNoResults |        | boolean  |         | true | autorise la saisie d'une valeur libre s'il n'y a aucun résultat avec l'auto-completion |
+| autoComplete              |        | boolean  |         | true | si `false`, pas d'autocomplétion, le module renvoie tous les résultats |
+| autoResetWhenSelected     |        | boolean  |         | true | remet l'input de saisie à zéro après la saisie |
+| showRepositoryInput       |        | boolean  |         | true | affiche le sélecteur de référentiels |
+| inputFullWidth            |        | boolean  |         | true | `width="100%"` |
+| floatLabel                |        | string   | "auto", "always", "never" | "auto" | c'est un paramètre de l'input Material |
+| hintRepoLabel             |        | boolean  |         | true | c'est un paramètre de l'input Material |
+| placeholder               |        | string   |         | - | pour modifier le placeholder par défaut |
+| editingPlaceholder        |        | string   |         | 'Modifier une donnée' | placeholder lors de l'édition d'une donnée |
+| showAuthor                |        | boolean  |         | true | affiche les autorités dans l'autocomplete |
+| showRepositoryDescription |    | boolean  |         | false | affiche la description du référentiel |
+| attachRawData             |        | boolean  |         | false | ajoute l'objet rawData à la réponse |
 
 ### Paramètres en sortie @Output
 

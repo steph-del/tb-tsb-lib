@@ -37,10 +37,11 @@ export class SearchBoxComponent implements OnInit {
     this._fixedRepository = value;
     value !== '' ? this.form.controls.repository.disable() : this.form.controls.repository.enable();
   }
-  @Input() set allowUnvalidatedData(value: boolean) { // user can enter data that is not present in a repository
-    this._allowUnvalidatedData = value;
+  @Input() set allowEmptyRepository(value: boolean) { // user can enter data that is not present in a repository
+    this._allowEmptyRepository = value;
     this.initRepo();
   }
+  @Input() allowFreeValueIfNoResults = true;          // if there is no results, user can manually enter a value
   @Input() autoComplete = true;                       // should the component show an autocomplete ? If false, just show an input and @output all results
   @Input() autoResetWhenSelected = true;              // reset the input after a data is selected
   @Input() showRepositoryInput = true;                // show / hide repository input
@@ -66,7 +67,7 @@ export class SearchBoxComponent implements OnInit {
   // VARS
   //
   _level = 'idiotaxon';                               // default value
-  _allowUnvalidatedData = true;
+  _allowEmptyRepository = true;
   _fixedRepository: string;
 
   noOneRepositoryError = false;
@@ -77,7 +78,8 @@ export class SearchBoxComponent implements OnInit {
   currentRepository: string;
   lastUsedRepositoryValue: string;               // used when updateTaxo
   lastPlaceholderValue: string;                  // idem
-  isLoading = false;
+  isSearching = false;                           // true as soon as the user begin to type and false when loading data is finished (isLoading = false)
+  isLoading = false;                             // wait for http response, with a starter delay (see debounceTime delay)
   matcher = new MyErrorStateMatcher();
   isEditingData = false;
   editingOccurenceId: number;                    // id of the occurence that is being edited
@@ -110,7 +112,12 @@ export class SearchBoxComponent implements OnInit {
       }
     );
 
-    // Watch input change
+    // First watcher. Need to rapidly set isSearching to true. No better solution because of the debounceTime of the second watcher.
+    this.form.controls.input.valueChanges.subscribe(() => {
+      this.isSearching = true;
+    });
+
+    // Second watcher
     this.form.controls.input.valueChanges
     .pipe(debounceTime(400))
     .pipe(distinctUntilChanged())
@@ -130,14 +137,17 @@ export class SearchBoxComponent implements OnInit {
         } else if (typeof(value) === 'object') {
           value.repository = this.currentRepository;
           if (!this.isEditingData) {
+            this.dataFromRepo = [];
             this.newData.next(value as RepositoryItemModel);
           } else {
             value.occurenceId = this.editingOccurenceId;
+            this.dataFromRepo = [];
             this.updatedData.next(value as RepositoryItemModel);
             this.stopEditingTaxo();
           }
           this.dataFromRepo = [];
           this.isLoading = false;
+          this.isSearching = false;
 
           // if autoReset, reset the input
           if (this.autoResetWhenSelected) { this.resetInput(); }
@@ -156,8 +166,10 @@ export class SearchBoxComponent implements OnInit {
       if (results !== []) {
         this.dataFromRepo = results;
         this.isLoading = false;
+        this.isSearching = false;
         // If there is no autocomplete, we send all results through @Output allResults
         if (!this.autoComplete) {
+          this.dataFromRepo = [];
           this.allResults.next(results);
         }
       }
@@ -168,13 +180,24 @@ export class SearchBoxComponent implements OnInit {
    * When user keyDown Enter
    */
   keyDownEnter() {
-    if (this._allowUnvalidatedData && this.currentRepository === 'otherunknow') {
+    //
+    // current repository is other/unknow
+    // or there is no results for the search && allowFreeValueIfNoResults
+    if (
+      (this._allowEmptyRepository && this.currentRepository === 'otherunknow')
+      || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && this.dataFromRepo.length === 0 && !this.isSearching)
+    ) {
+
+      // if input value is empty, return
+      if (this.form.controls.input.value.replace(' ', '') === '') { return; }
+
       // response model
       const rimResponse: RepositoryItemModel = {occurenceId: null, repository: null, idNomen: null, idTaxo: null, name: null, author: null};
 
       // if we are editing data
       // emit an updatedData event
       if (this.isEditingData) {
+        this.dataFromRepo = [];
         this.updatedData.next({
           occurenceId: this.editingOccurenceId,
           repository: 'otherunknow',
@@ -188,7 +211,8 @@ export class SearchBoxComponent implements OnInit {
       // emit a selectedData event
       } else {
         rimResponse.name = this.form.controls.input.value;
-        rimResponse.repository = this.currentRepository;
+        rimResponse.repository = 'otherunknow';
+        this.dataFromRepo = [];
         this.newData.next(rimResponse);
       }
 
@@ -214,7 +238,7 @@ export class SearchBoxComponent implements OnInit {
     }
 
     // Allow unvalided data ?
-    if (this._allowUnvalidatedData) {
+    if (this._allowEmptyRepository) {
       this.listRepo.push({value: 'otherunknow', label: 'Autre/inconnu'});
     }
 

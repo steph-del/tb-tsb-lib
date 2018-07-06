@@ -30,10 +30,16 @@
     <input [formControl]="inputForm.controls.autoResetWhenSelected" type="checkbox">
   </div>
 
-  <!-- allowUnvalidatedData -->
+  <!-- allowEmptyRepository -->
   <div>
-    <span>allowUnvalidatedData :</span>
-    <input [formControl]="inputForm.controls.allowUnvalidatedData" type="checkbox">
+    <span>allowEmptyRepository :</span>
+    <input [formControl]="inputForm.controls.allowEmptyRepository" type="checkbox">
+  </div>
+
+  <!-- allowFreeValueIfNoResults -->
+  <div>
+    <span>allowFreeValueIfNoResults :</span>
+    <input [formControl]="inputForm.controls.allowFreeValueIfNoResults" type="checkbox">
   </div>
 
   <!-- showRepositoryInput -->
@@ -95,7 +101,8 @@
     [autoComplete]="inputForm.controls.autoComplete.value"
     [autoResetWhenSelected]="inputForm.controls.autoResetWhenSelected.value"
     [defaultRepository]="_defaultRepository"
-    [allowUnvalidatedData]="inputForm.controls.allowUnvalidatedData.value"
+    [allowEmptyRepository]="inputForm.controls.allowEmptyRepository.value"
+    [allowFreeValueIfNoResults]="inputForm.controls.allowFreeValueIfNoResults.value"
     [showRepositoryInput]="inputForm.controls.showRepositoryInput.value"
     style="width:100%;"
     [inputFullWidth]="inputForm.controls.inputFullWidth.value"
@@ -105,7 +112,7 @@
     [showAuthor]="inputForm.controls.showAuthor.value"
     [showRepositoryDescription]="inputForm.controls.showRepositoryDescription.value"
     [attachRawData]="inputForm.controls.attachRawData.value"
-    (selectedData)="selectedData($event)"
+    (newData)="selectedData($event)"
     (allResults)="receviedAllResults($event)"
   ></tb-tsb-search-box>
 </div>

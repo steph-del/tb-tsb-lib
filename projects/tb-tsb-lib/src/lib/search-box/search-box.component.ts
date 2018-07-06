@@ -56,7 +56,7 @@ export class SearchBoxComponent implements OnInit {
     if (value !== null) { this.startEditingTaxo(value); }
   }
 
-  @Output() selectedData = new EventEmitter<RepositoryItemModel>();
+  @Output() newData = new EventEmitter<RepositoryItemModel>();
   @Output() updatedData = new EventEmitter<{occurenceId: number, repository: string, idTaxo: string, idNomen: string, name: string, author: string}>();
   @Output() cancelUpdateData = new EventEmitter<{occurenceId: number}>();
   @Output() selectedRepository = new EventEmitter<string | number>();
@@ -130,7 +130,7 @@ export class SearchBoxComponent implements OnInit {
         } else if (typeof(value) === 'object') {
           value.repository = this.currentRepository;
           if (!this.isEditingData) {
-            this.selectedData.next(value as RepositoryItemModel);
+            this.newData.next(value as RepositoryItemModel);
           } else {
             this.updatedData.next({
               occurenceId: this.editingOccurenceId,
@@ -195,7 +195,7 @@ export class SearchBoxComponent implements OnInit {
       } else {
         rimResponse.name = this.form.controls.input.value;
         rimResponse.repository = this.currentRepository;
-        this.selectedData.next(rimResponse);
+        this.newData.next(rimResponse);
       }
 
       // if autoReset, reset the input

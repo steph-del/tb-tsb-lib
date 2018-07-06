@@ -55,7 +55,7 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 
 | Propriété          | Valeur(s)                     | Remarque |
 | ---                | ---                           | ---         |
-| selectedData       | RepositoryItemModel \| null   | selectedData est utilisé quand l'utilisateur à selecionné une donnée (hors édition) |
+| newData       | RepositoryItemModel \| null   | newData est utilisé quand l'utilisateur à selecionné une donnée (hors édition) |
 | updatedData        | `{occurenceId: number, repository: string, idTaxo: string, idNomen: string, name: string, author: string;}` | updatedData est utilisé quand l'utilisateur a selectionné une nouvelle valeur pour une donnée existante. La valeur de retour est très proche de RepositoryItemModel. Il y a un juste champ `occurenceId` en plus. |
 | cancelUpdateData   | `{occurenceId: number}` | cancelUpdateData est utilisé quand l'utilisateur à annulé l'édition d'une donnée. Renvoie l'id de l'occurence pour laquelle l'édition est annulée |
 | selectedRepository | Array<RepositoryItemModel> \| null | selectedRepository est renvoyé quand l'utilisateur à changé de référentiel (attention, aucune valeur n'est émise si le référentiel est changé automatiquement lors de l'édition d'une donnée) |

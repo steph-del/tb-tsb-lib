@@ -13,10 +13,10 @@ export class TestAppComponent {
   constructor() { }
 
   /**
-   * When user has selected a data
+   * When user has entered a new data
    */
-  selectedData(data: TaxonType) {
-    console.log('Event \'selectedData\' (new data) :');
+  newData(data: TaxonType) {
+    console.log('Event \'newData\' :');
     console.log(data);
     this.addTaxon(data);
   }

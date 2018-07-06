@@ -52,12 +52,13 @@ export class SearchBoxComponent implements OnInit {
   @Input() showAuthor = true;                         // show author into search box
   @Input() showRepositoryDescription = false;
   @Input() attachRawData = false;                     // rawData is the set of data before passing through the standardize() method
-  @Input() set updateData(value: {occurenceId: number, repository: string, idNomen: string, name: string, author?: string, idTaxo?: string} | null) {
+  @Input() set updateData(value: {occurenceId: number, repository: string, idNomen: string, name: string, author?: string, idTaxo?: string}) {
     if (value !== null) { this.startEditingTaxo(value); }
   }
 
-  @Output() selectedData = new EventEmitter<RepositoryItemModel | null>();
-  @Output() updatedData = new EventEmitter<{occurenceId: number, repository: string, idTaxo: string, idNomen: string, name: string, author: string} | null>();
+  @Output() selectedData = new EventEmitter<RepositoryItemModel>();
+  @Output() updatedData = new EventEmitter<{occurenceId: number, repository: string, idTaxo: string, idNomen: string, name: string, author: string}>();
+  @Output() cancelUpdateData = new EventEmitter<{occurenceId: number}>();
   @Output() selectedRepository = new EventEmitter<string | number>();
   @Output() allResults = new EventEmitter<any>();
 
@@ -351,6 +352,11 @@ export class SearchBoxComponent implements OnInit {
    */
   startEditingTaxo(value: {occurenceId: number, repository: string, idNomen: string, name: string, author?: string, idTaxo?: string}): void {
     // Should first do an http request to check if value exists in db ?
+
+    // Check if there is already an edition in progress
+    // If true, cancel before continuing
+    if (this.isEditingData) { this.cancelEditingTaxo(); }
+
     this.isEditingData = true;
     this.editingOccurenceId = value.occurenceId;
     this.lastPlaceholderValue = this.placeholder;
@@ -378,9 +384,9 @@ export class SearchBoxComponent implements OnInit {
    * Cancel editing data : reset and emit null event.
    */
   cancelEditingTaxo(): void {
+    this.cancelUpdateData.next({occurenceId: this.editingOccurenceId});
     this.stopEditingTaxo();
     this.resetInput();
-    this.updatedData.next(null);
   }
 
 }

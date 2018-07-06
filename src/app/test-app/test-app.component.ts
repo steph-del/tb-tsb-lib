@@ -40,10 +40,9 @@ export class TestAppComponent {
   /**
    * When user has updated a data
    */
-  updatedData(data: TaxonType | null) {
+  updatedData(data: TaxonType) {
     console.log('Event \'updatedData\' :');
-    console.log(data === null ? 'null (cancelled)' : data);
-    if (data === null) { return; }  // data === null if user cancelled the edition
+    console.log(data);
 
     /**
      * Here, you should register the updated data in db
@@ -62,6 +61,13 @@ export class TestAppComponent {
     taxonToUpdate.idNomen = data.idNomen;
     taxonToUpdate.name = data.name;
     taxonToUpdate.author = data.author;
+  }
+
+  /**
+   * if user has cancelled
+   */
+  cancelUpdateData(data: { occurenceId: number }) {
+    console.log(`Event 'cancelUpdateData' for occurenceId ${data.occurenceId}`);
   }
 }
 

@@ -47,8 +47,7 @@ export class ApdRepositoryService implements RepositoryModel {
     const sData: Array<RepositoryItemModel> = [];
 
     rawData.forEach(item => {
-      const rim: RepositoryItemModel = {id: null, repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
-      rim.id = item[1];
+      const rim: RepositoryItemModel = {repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
       rim.name = item[3];
       rim.author = item[0].substr(item[3].length + 1, (item[0].length - item[3].length));
       rim.idTaxo = null;

@@ -86,8 +86,7 @@ export class BasevegRepositoryService implements RepositoryModel {
     rawData = this.filter(rawData);
 
     rawData.forEach((item) => {
-      const rim: RepositoryItemModel = {id: null, repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
-      rim.id = item.fixedCode;
+      const rim: RepositoryItemModel = {repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
       rim.name = item.syntaxonName;
       rim.author = item.syntaxonAuthor;
       rim.idTaxo = item.catminatCode;

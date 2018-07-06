@@ -63,7 +63,6 @@ RepositoryItemModel :
 
 | Propriété   | Type             | Commentaire |
 | ---         | ---              | ---         |
-| id          | number \| string | par défaut, c'est l'id nomenclatural |
 | repository  | string |
 | idNomen     | number \| string
 | idTaxo      | number \| string

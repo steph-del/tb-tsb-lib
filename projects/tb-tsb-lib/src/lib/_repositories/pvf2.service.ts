@@ -88,8 +88,7 @@ export class Pvf2RepositoryService implements RepositoryModel {
     rawData = this.filter(rawData);
 
     rawData.forEach((item) => {
-      const rim: RepositoryItemModel = {id: null, repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
-      rim.id = item.CD_HAB;
+      const rim: RepositoryItemModel = {repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
       rim.name = item.LB_HAB_FR;
       rim.author = item.LB_AUTEUR;
       rim.idTaxo = item.CD_HAB;

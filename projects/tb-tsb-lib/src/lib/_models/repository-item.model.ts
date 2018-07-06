@@ -6,7 +6,6 @@
  */
 export interface RepositoryItemModel {
   repository: string | 0;
-  id: number;
   idNomen: number | string;
   idTaxo: number | string;
   name: string;

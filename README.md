@@ -13,8 +13,8 @@ Voir le fichier [**angular.json**](https://github.com/steph-del/tb-tsb-lib/blob/
 
 ## Installation de la librairie
 
-- `yarn add http://psing.e-veg.net/tb-tsb-lib-0.1.0.tgz` (voir la dernière version + placer la librairie sur un serveur de Tela)
-- ou `npm install http://psing.e-veg.net/tb-tsb-lib-0.1.0.tgz`
+- `yarn add https://github.com/steph-del/tb-tsb-lib/releases/download/v0.1.0/tb-tsb-lib-0.1.0.tgz` (voir la dernière version)
+- ou `npm install https://github.com/steph-del/tb-tsb-lib/releases/download/v0.1.0/tb-tsb-lib-0.1.0.tgz`
 - Dasn l'appli principale, vérifier les versions des dépendances (peer dependencies) de la librairie (angular/common, /core, /material, /cdk et rxjs)
 - Importer un thème angular material dans le fichier css de l'application principale
 - Ajouter les icones Material dans l'index.html de l'application principale :

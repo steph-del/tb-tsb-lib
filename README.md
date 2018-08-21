@@ -1,7 +1,7 @@
 
 # TB TaxoSearchBox
 
-L'application est composée de 3 projets :
+Le projet est composée de 3 applications :
 
 - **tb-tsb-lib** : la librairie
 - **tb-tsb-lib-app** : l'application qui fait tourner la librairie (test)

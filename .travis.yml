@@ -1,0 +1,16 @@
+#.travis.yml
+
+language: node_js
+node_js:
+  - "9.4.0"
+
+branches:
+  only:
+    - master
+
+before_script:
+  - npm install -g @angular/cli
+  - ng build --prod -tb-tsb-lib
+
+script:
+  - ng build --prod

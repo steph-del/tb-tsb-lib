@@ -10,7 +10,7 @@ branches:
 
 before_script:
   - npm install -g @angular/cli
-  - ng build --prod -tb-tsb-lib
+  - ng build --prod tb-tsb-lib
 
 script:
   - ng build --prod

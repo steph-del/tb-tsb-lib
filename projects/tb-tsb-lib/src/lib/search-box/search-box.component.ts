@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Input, Output, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { isDefined } from '@angular/compiler/src/util';
 import { RepositoryService } from '../_services/repository.service';
 import { RepositoryItemModel } from '../_models/repository-item.model';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
@@ -142,11 +143,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           value.repository = this.currentRepository;
           if (!this.isEditingData) {
             this.dataFromRepo = [];
-            this.newData.next(value as RepositoryItemModel);
+            this.checkAndEmitNewData(value);
           } else {
             value.occurenceId = this.editingOccurenceId;
             this.dataFromRepo = [];
-            this.updatedData.next(value as RepositoryItemModel);
+            this.checkAndEmitUpdatedData(value);
             this.stopEditingTaxo();
           }
           this.dataFromRepo = [];
@@ -178,6 +179,36 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  checkAndEmitNewData(data: RepositoryItemModel) {
+    if (data.isSynonym === true && !isDefined(data.validOccurence)) {
+      // Get valid occurence
+      this.repositoryService.getValidOccurence(data.repository, data.idNomen).subscribe(result => {
+        const validOcc = this.repositoryService.standardizeValidOccurence(data.repository, result);
+        validOcc.repository = data.repository;
+        data.idTaxo = validOcc.idNomen;
+        data.validOccurence = validOcc;
+        this.newData.next(data);
+      });
+    } else {
+      this.newData.next(data);
+    }
+  }
+
+  checkAndEmitUpdatedData(data: RepositoryItemModel) {
+    if (data.isSynonym === true && !isDefined(data.validOccurence)) {
+      // Get valid occurence
+      this.repositoryService.getValidOccurence(data.repository, data.idNomen).subscribe(result => {
+        const validOcc = this.repositoryService.standardizeValidOccurence(data.repository, result);
+        validOcc.repository = data.repository;
+        data.idTaxo = validOcc.idNomen;
+        data.validOccurence = validOcc;
+        this.updatedData.next(data);
+      });
+    } else {
+      this.updatedData.next(data);
+    }
   }
 
   /**

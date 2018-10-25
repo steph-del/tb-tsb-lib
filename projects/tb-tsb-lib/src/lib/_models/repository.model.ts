@@ -22,6 +22,12 @@ export interface RepositoryModel {
   apiUrl: string;
 
   /**
+   * The URL of the API that is used to retrieve a valid occurence
+   * Optional : apiUrl could already send valid occurence for a given synonym occurence
+   */
+  apiUrlValidOccurence?: string;
+
+  /**
    * Wich levels can this repository manage ?
    * Array must contains 'idiotaxon' | 'synusy' | 'microcenosis' | 'phytocenosis' | ...
    */
@@ -53,6 +59,13 @@ export interface RepositoryModel {
   findByIdTaxo: (id: number | string) => Observable<any>;
 
   /**
+   * Find a valid occurence by its nomenenclatural id
+   * This method is different from findByIdNomen because its instantation could use another API
+   * It's optional because the initial methods could already returns valid occurence for a given synonym
+   */
+  findValidOccurenceByIdNomen?: (id: number | string) => Observable<any>;
+
+  /**
    * In case of the data are not ready to use (e.g. nested into another object)
    * Return results
    * Basicly, could return input data (return rawData)
@@ -65,5 +78,11 @@ export interface RepositoryModel {
    * So these data must share a common model : RepositoryItemModel
    */
   standardize: (rawData: any) => Array<RepositoryItemModel>;
+
+  /**
+   * The shared RepositoryItemModel also applies for valid occurences
+   * Optional : see comment of findValidOccurenceByIdNomen()
+   */
+  standardizeValidOccurence?: (rawData: any) => RepositoryItemModel;
 
 }

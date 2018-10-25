@@ -8,6 +8,7 @@ import { BdtfxRepositoryService } from '../_repositories/bdtfx.service';
 import { BdtferRepositoryService } from '../_repositories/bdtfer.service';
 import { Pvf2RepositoryService } from '../_repositories/pvf2.service';
 import { ApdRepositoryService } from '../_repositories/apd.service';
+import { RepositoryItemModel } from '../_models/repository-item.model';
 
 @Injectable()
 /**
@@ -143,6 +144,21 @@ export class RepositoryService {
   getRepositoryDescription(repository: string): String {
     if (!repository || repository === 'otherunknow') { return ''; }
     return this[(repository + 'RepoService')].description_fr;
+  }
+
+  /**
+   * Find a valid occurence from a synonym idNomen
+   * Note : we can't check here that the provided idNomen is from a synonym occurence,
+   */
+  getValidOccurence(repository: string, idNomen: number | string): Observable<any> {
+    return this[(repository + 'RepoService')].findValidOccurenceById(idNomen);
+  }
+
+  /**
+   * A valid occurence has to be standardized into a RepositoryItemModel
+   */
+  standardizeValidOccurence(repository: string, data: any): RepositoryItemModel {
+    return this[(repository + 'RepoService')].standardizeValidOccurence(data);
   }
 
 }

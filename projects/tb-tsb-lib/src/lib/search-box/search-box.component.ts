@@ -191,7 +191,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         data.validOccurence = validOcc;
         this.newData.next(data);
       });
-    } else {
+    } else if (data.isSynonym === true && isDefined(data.validOccurence)) {
+      data.idTaxo = data.validOccurence.idNomen;
+      this.newData.next(data);
+    } else if (data.isSynonym === false) {
+      data.validOccurence = data;
       this.newData.next(data);
     }
   }

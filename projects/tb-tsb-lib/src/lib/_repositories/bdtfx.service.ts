@@ -13,6 +13,7 @@ export class BdtfxRepositoryService implements RepositoryModel {
   label = 'bdtfx';
   apiUrl = `http://api.tela-botanica.org/service:cel/NameSearch/bdtfx/`;
   apiUrl2 = ``;
+  apiUrlValidOccurence = 'https://api.tela-botanica.org/service:eflore:0.1/bdtfx/noms/';
   levels = ['idiotaxon'];
   description_fr = `Base de données des trachéophytes de France métropolitaine.
                     Référentiel taxonomique (espèces) coordonné par Tela Botanica et géré par
@@ -45,6 +46,12 @@ export class BdtfxRepositoryService implements RepositoryModel {
     return request;
   }
 
+  findValidOccurenceByIdNomen(idNomen): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-type': 'application/json' });
+    const request: Observable<any> = this.http.get(this.apiUrlValidOccurence + idNomen, { headers });
+    return request;
+  }
+
   standardize = (rawData: any, attachRawData: boolean = false): any => {
     const sData: Array<RepositoryItemModel> = [];
 
@@ -60,6 +67,22 @@ export class BdtfxRepositoryService implements RepositoryModel {
       });
 
     return sData;
+  }
+
+  standardizeValidOccurence = (rawData: any): RepositoryItemModel => {
+    const sData: RepositoryItemModel = {repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
+
+    const nomSci = rawData['nom_retenu.libelle'];
+    const nomSciCompletValid = rawData.nom_retenu_complet;
+
+    sData.name = nomSci;
+    sData.author = nomSciCompletValid.substr(nomSci.length + 1, (nomSciCompletValid.length - nomSci.length));
+    sData.idTaxo = rawData['nom_retenu.id'];
+    sData.idNomen = rawData['nom_retenu.id'];
+    sData.isSynonym = false;
+
+    return sData;
+
   }
 
   /**

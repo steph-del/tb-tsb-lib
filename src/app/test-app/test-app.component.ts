@@ -56,11 +56,16 @@ export class TestAppComponent {
       }
     });
 
+    // We need to set manually those data because change detection will not
+    // occure while object reference stay the same
+    // an other solution could be to use immutable objects
     taxonToUpdate.repository = data.repository;
     taxonToUpdate.idTaxo = data.idTaxo;
     taxonToUpdate.idNomen = data.idNomen;
     taxonToUpdate.name = data.name;
     taxonToUpdate.author = data.author;
+    taxonToUpdate.isSynonym = data.isSynonym;
+    taxonToUpdate.validOccurence = data.validOccurence;
   }
 
   /**
@@ -80,4 +85,5 @@ interface TaxonType {
   author: string;
   isSynonym?: boolean;
   rawData?: any;
+  validOccurence: TaxonType;
 }

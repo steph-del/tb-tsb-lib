@@ -27,7 +27,7 @@ export class BasevegRepositoryService implements RepositoryModel {
           "query" : {
             "bool": {
               "must": {
-                "term" : { "syntaxonName": "${queryArray[0]}[a-z]*" }
+                "term" : { "syntaxonName": "${queryArray[0]}" }
               }
             }
           }
@@ -42,7 +42,7 @@ export class BasevegRepositoryService implements RepositoryModel {
       let esQueryBody = '';
       let i = 0;
       queryArray.forEach((queryItem) => {
-        esQueryBody += `{ "regexp": { "syntaxonName": "${queryItem}[a-z]*" } }`;
+        esQueryBody += `{ "regexp": { "syntaxonName": "${queryItem}" } }`;
         esQueryBody += (i < queryArray.length - 1) ? ',' : '';
         i++;
       });
@@ -80,7 +80,31 @@ export class BasevegRepositoryService implements RepositoryModel {
     return request;
   }
 
-  standardize = (rawData: any, attachRawData: boolean = false): any => {
+  findValidOccurenceByIdTaxo(idTaxo: string): Observable<any> {
+    idTaxo = idTaxo.replace('/', '\\\\\/');
+    const esQuery = `
+    {
+      "query" : {
+        "bool": {
+          "must": {
+              "query_string": {
+                  "query": "${idTaxo}",
+                  "analyzer" : "keyword"
+              }
+            },
+            "must_not": {
+              "term": { "level": "syn" }
+            }
+          }
+      }
+    }
+    `;
+    const headers = new HttpHeaders({ 'Content-type': 'application/json' });
+    const request: Observable<any> = this.http.post(this.apiUrl, esQuery, { headers });
+    return request;
+  }
+
+  standardize = (rawData: any, attachRawData: boolean = false): Array<RepositoryItemModel> => {
     const sData: Array<RepositoryItemModel> = [];
     // Get results from elasticsearch (= remove metadata)
     rawData = this.filter(rawData);
@@ -97,6 +121,16 @@ export class BasevegRepositoryService implements RepositoryModel {
     });
 
     return sData;
+  }
+
+  standardizeValidOccurence = (rawData: any): RepositoryItemModel => {
+    const results = this.standardize(rawData);
+    if (results.length > 1) {
+      // @todo throw error
+      return results[0];
+    } else {
+      return results[0];
+    }
   }
 
   /**

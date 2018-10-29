@@ -193,7 +193,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     } else if (data.isSynonym === true && isDefined(data.validOccurence)) {
       this.newData.next(data);
     } else if (data.isSynonym === false) {
-      data.validOccurence = data;
+      data.validOccurence = Object.assign({}, data);
       this.newData.next(data);
     }
   }
@@ -203,13 +203,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       this.repositoryService.getValidOccurence(data.repository, data.idNomen, data.idTaxo).subscribe(result => {
         const validOcc = this.repositoryService.standardizeValidOccurence(data.repository, result);
         validOcc.repository = data.repository;
-        data.idTaxo = validOcc.idNomen;
         data.validOccurence = validOcc;
         this.updatedData.next(data);
       });
     } else if (data.isSynonym === false) {
-      data.idTaxo = data.idNomen;
-      data.validOccurence = data;
+      data.validOccurence = Object.assign({}, data);
       this.updatedData.next(data);
     }
   }

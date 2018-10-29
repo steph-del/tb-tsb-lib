@@ -9,6 +9,7 @@ import { BdtferRepositoryService } from '../_repositories/bdtfer.service';
 import { Pvf2RepositoryService } from '../_repositories/pvf2.service';
 import { ApdRepositoryService } from '../_repositories/apd.service';
 import { RepositoryItemModel } from '../_models/repository-item.model';
+import { isDefined } from '@angular/compiler/src/util';
 
 @Injectable()
 /**
@@ -150,8 +151,14 @@ export class RepositoryService {
    * Find a valid occurence from a synonym idNomen
    * Note : we can't check here that the provided idNomen is from a synonym occurence,
    */
-  getValidOccurence(repository: string, idNomen: number | string): Observable<any> {
-    return this[(repository + 'RepoService')].findValidOccurenceById(idNomen);
+  getValidOccurence(repository: string, idNomen: number | string | null, idTaxo: number | string | null): Observable<any> {
+    if (isDefined(this[(repository + 'RepoService')].findValidOccurenceByIdNomen)) {
+      return this[(repository + 'RepoService')].findValidOccurenceByIdNomen(idNomen);
+    } else if (isDefined(this[(repository + 'RepoService')].findValidOccurenceByIdTaxo)) {
+      return this[(repository + 'RepoService')].findValidOccurenceByIdTaxo(idTaxo);
+    } else {
+      // @todo throw error ?
+    }
   }
 
   /**

@@ -184,18 +184,15 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   checkAndEmitNewData(data: RepositoryItemModel) {
     if (data.isSynonym === true && !isDefined(data.validOccurence)) {
       // Get valid occurence
-      this.repositoryService.getValidOccurence(data.repository, data.idNomen).subscribe(result => {
+      this.repositoryService.getValidOccurence(data.repository, data.idNomen, data.idTaxo).subscribe(result => {
         const validOcc = this.repositoryService.standardizeValidOccurence(data.repository, result);
         validOcc.repository = data.repository;
-        data.idTaxo = validOcc.idNomen;
         data.validOccurence = validOcc;
         this.newData.next(data);
       });
     } else if (data.isSynonym === true && isDefined(data.validOccurence)) {
-      data.idTaxo = data.validOccurence.idNomen;
       this.newData.next(data);
     } else if (data.isSynonym === false) {
-      data.idTaxo = data.idNomen;
       data.validOccurence = data;
       this.newData.next(data);
     }
@@ -203,8 +200,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   checkAndEmitUpdatedData(data: RepositoryItemModel) {
     if (data.isSynonym === true) {
-      // Get valid occurence
-      this.repositoryService.getValidOccurence(data.repository, data.idNomen).subscribe(result => {
+      this.repositoryService.getValidOccurence(data.repository, data.idNomen, data.idTaxo).subscribe(result => {
         const validOcc = this.repositoryService.standardizeValidOccurence(data.repository, result);
         validOcc.repository = data.repository;
         data.idTaxo = validOcc.idNomen;

@@ -59,11 +59,12 @@ export interface RepositoryModel {
   findByIdTaxo: (id: number | string) => Observable<any>;
 
   /**
-   * Find a valid occurence by its nomenenclatural id
+   * Find a valid occurence by its nomenenclatural / taxonomic id
+   * Nomenclatural or taxonomic id is your choice. Please be specific in the service implementation
    * This method is different from findByIdNomen because its instantation could use another API
    * It's optional because the initial methods could already returns valid occurence for a given synonym
    */
-  findValidOccurenceByIdNomen?: (id: number | string) => Observable<any>;
+  findValidOccurenceById?: (id: number | string) => Observable<any>;
 
   /**
    * In case of the data are not ready to use (e.g. nested into another object)

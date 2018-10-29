@@ -151,7 +151,7 @@ export class RepositoryService {
    * Note : we can't check here that the provided idNomen is from a synonym occurence,
    */
   getValidOccurence(repository: string, idNomen: number | string): Observable<any> {
-    return this[(repository + 'RepoService')].findValidOccurenceByIdNomen(idNomen);
+    return this[(repository + 'RepoService')].findValidOccurenceById(idNomen);
   }
 
   /**

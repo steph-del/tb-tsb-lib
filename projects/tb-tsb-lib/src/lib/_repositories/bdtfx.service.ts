@@ -46,7 +46,7 @@ export class BdtfxRepositoryService implements RepositoryModel {
     return request;
   }
 
-  findValidOccurenceByIdNomen(idNomen): Observable<any> {
+  findValidOccurenceById(idNomen): Observable<any> {
     const headers = new HttpHeaders({ 'Content-type': 'application/json' });
     const request: Observable<any> = this.http.get(this.apiUrlValidOccurence + idNomen, { headers });
     return request;

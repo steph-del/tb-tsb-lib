@@ -20,17 +20,19 @@ defaultRepository="bdtfx"></tb-tsb-search-box>
     <th>ID (occurence)</th>
     <th>Référentiel</th>
     <th>ID nomenclatural</th>
-    <th>ID taxonomique</th>
+    <th>ID nomenclatural retenu</th>
     <th>Nom</th>
     <th>Auteur</th>
+    <th>Nom retenu</th>
   </tr>
   <tr *ngFor="let taxon of taxons">
     <td>{{ taxon.occurenceId }}</td>
     <td>{{ taxon.repository }}</td>
     <td>{{ taxon.idNomen }}</td>
-    <td>{{ taxon.idTaxo }}</td>
+    <td>{{ taxon.validOccurence.idNomen }}</td>
     <td>{{ taxon.name }}</td>
     <td>{{ taxon.author }}</td>
+    <td>{{ taxon.validOccurence?.name }} {{ taxon.validOccurence?.author }}</td>
     <td (click)="updateData(taxon)" style="cursor: pointer;">editer</td>
   </tr>
 </table>

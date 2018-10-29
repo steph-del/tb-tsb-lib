@@ -13,4 +13,5 @@ export interface RepositoryItemModel {
   author: string;
   isSynonym?: boolean;
   rawData?: any;
+  validOccurence?: RepositoryItemModel;
 }

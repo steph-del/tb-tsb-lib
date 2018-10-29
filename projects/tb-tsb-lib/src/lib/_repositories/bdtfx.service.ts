@@ -46,7 +46,7 @@ export class BdtfxRepositoryService implements RepositoryModel {
     return request;
   }
 
-  findValidOccurenceById(idNomen): Observable<any> {
+  findValidOccurenceByIdNomen(idNomen): Observable<any> {
     const headers = new HttpHeaders({ 'Content-type': 'application/json' });
     const request: Observable<any> = this.http.get(this.apiUrlValidOccurence + idNomen, { headers });
     return request;
@@ -59,7 +59,7 @@ export class BdtfxRepositoryService implements RepositoryModel {
       const rim: RepositoryItemModel = {repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
       rim.name = item[3];
       rim.author = item[0].substr(item[3].length + 1, (item[0].length - item[3].length));
-      rim.idTaxo = null;
+      rim.idTaxo = null; // not provided
       rim.idNomen = item[1];
       rim.isSynonym = (+item[2] === 4 ? true : false);
       if (attachRawData) { rim.rawData = item; }

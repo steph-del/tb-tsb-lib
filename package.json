@@ -11,7 +11,8 @@
     "build_serve": "ng build --prod tb-tsb-lib && ng serve",
     "build_lib": "ng build --prod tb-tsb-lib",
     "npm_pack": "cd dist/tb-tsb-lib && npm pack",
-    "build_pack": "ng build --prod tb-tsb-lib && npm run npm_pack"
+    "build_pack": "ng build --prod tb-tsb-lib && npm run npm_pack",
+    "build_elements": "ng build --prod --output-hashing none && node elements-build.js"
   },
   "private": true,
   "dependencies": {
@@ -20,13 +21,18 @@
     "@angular/common": "^6.0.3",
     "@angular/compiler": "^6.0.3",
     "@angular/core": "^6.0.3",
+    "@angular/elements": "6.0.3",
     "@angular/forms": "^6.0.3",
     "@angular/http": "^6.0.3",
     "@angular/material": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/platform-browser": "^6.0.3",
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
+    "@webcomponents/custom-elements": "^1.2.1",
+    "concat": "^1.0.3",
     "core-js": "^2.5.4",
+    "document-register-element": "^1.7.2",
+    "fs-extra": "^7.0.0",
     "rxjs": "^6.0.0",
     "rxjs-tslint": "^0.1.5",
     "zone.js": "^0.8.26"

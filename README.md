@@ -93,4 +93,7 @@ Ne pas oublier de reconstruire la librairie avant de servir l'application (`npm 
 Le build et la package sont dans le répertoire `dist/`.
 
 ## Tests unitaires
-...
+`ng test`
+
+## Tests e2e
+`ng e2e`

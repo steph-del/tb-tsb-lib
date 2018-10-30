@@ -2,10 +2,10 @@
     <mat-chip-list><mat-chip>{{ noOneRepositoryErrorMessage }}</mat-chip></mat-chip-list>
 </div>
 
-<div *ngIf="!noOneRepositoryError" class="container">
+<div *ngIf="!noOneRepositoryError" class="tsb-container">
   <!-- Repositories list -->
   <mat-form-field [hidden]="!showRepositoryInput" [floatLabel]="floatLabel" style="max-width: 100px;">
-    <mat-select [formControl]="form.controls.repository" placeholder="Référentiel">
+    <mat-select id="repositoryInput" [formControl]="form.controls.repository" placeholder="Référentiel">
       <mat-option *ngFor="let repo of listRepo" [value]="repo.value">
         {{ repo.label }}
       </mat-option>
@@ -14,7 +14,7 @@
 
   <!-- Input field -->
   <mat-form-field [class.fullWidth]="inputFullWidth" [color]="isEditingData?'accent':'primary'" [floatLabel]="floatLabel" [hintLabel]="hintRepoLabel?hintRepoLabelMessage():''">
-    <input #taxoInput matInput [formControl]="form.controls.input"
+    <input #taxoInput matInput id="taxoInput" [formControl]="form.controls.input"
                     placeholder="{{ inputPlaceholder() }}"
                     [matAutocomplete]="auto"
                     [matAutocompleteDisabled]="autoComplete?false:true"

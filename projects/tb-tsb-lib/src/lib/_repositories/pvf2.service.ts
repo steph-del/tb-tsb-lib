@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 /**
  * PVF2
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class Pvf2RepositoryService implements RepositoryModel {
   id = 'pvf2';
   label = 'PVF2';

@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 /**
  * Baseveg
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class BasevegRepositoryService implements RepositoryModel {
   id = 'baseveg';
   label = 'baseveg';

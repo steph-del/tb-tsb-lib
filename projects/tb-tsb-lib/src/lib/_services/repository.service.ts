@@ -11,15 +11,16 @@ import { ApdRepositoryService } from '../_repositories/apd.service';
 import { RepositoryItemModel } from '../_models/repository-item.model';
 import { isDefined } from '@angular/compiler/src/util';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 /**
  * To add a new Repository :
  *   1. Create a new service called 'myrepository.service' inside the _repositories dir that extends RepositoryModel
- *   2. Import this service into _repositories/repository.module and add it as a provider
- *   3. Import this service into _services/repository.service (here). Don't forget the constructor.
- *   4. Name this service as anythingRepoService (*RepoService) in the constructor (here)
- *   5. Push this service inside the repo array (here)
- *   4. Update the tests
+ *   2. Import this service into _services/repository.service (here). Don't forget the constructor.
+ *   3. Name this service as anythingRepoService (*RepoService) in the constructor (here)
+ *   4. Push this service inside the repo array (here)
+ *   5. Update the tests
  */
 export class RepositoryService {
 

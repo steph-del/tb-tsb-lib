@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 /**
  * BDTFX
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class BdtfxRepositoryService implements RepositoryModel {
   id = 'bdtfx';
   label = 'bdtfx';

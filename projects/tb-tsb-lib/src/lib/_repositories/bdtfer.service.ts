@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 /**
  * BDTFXR
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class BdtferRepositoryService implements RepositoryModel {
   id = 'bdtfer';
   label = 'bdtfer';

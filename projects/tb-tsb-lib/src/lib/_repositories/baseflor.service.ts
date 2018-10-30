@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 /**
  * Baseflor
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class BaseflorRepositoryService implements RepositoryModel {
   id = 'baseflor';
   label = 'baseflor';

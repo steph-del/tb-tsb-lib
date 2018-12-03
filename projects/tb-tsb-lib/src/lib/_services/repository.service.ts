@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { Observable, empty } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RepositoryModel } from '../_models/repository.model';
-import { BasevegRepositoryService } from '../_repositories/baseveg.service';
-import { BaseflorRepositoryService } from '../_repositories/baseflor.service';
-import { BdtfxRepositoryService } from '../_repositories/bdtfx.service';
-import { BdtferRepositoryService } from '../_repositories/bdtfer.service';
-import { Pvf2RepositoryService } from '../_repositories/pvf2.service';
-import { ApdRepositoryService } from '../_repositories/apd.service';
 import { RepositoryItemModel } from '../_models/repository-item.model';
 import { isDefined } from '@angular/compiler/src/util';
+
+import { TaxRef12Flore } from '../_repositories/taxref12Flore.service';
+import { TaxRef12Bryophytes } from '../_repositories/taxref12Bryophytes.service';
+import { TaxRef12Algues } from '../_repositories/taxref12Algues.service';
+import { TaxRef12Insectes } from '../_repositories/taxref12Insectes.service';
+import { TaxRef12Mammiferes } from '../_repositories/taxref12Mammiferes.service';
+import { TaxRef12Oiseaux } from '../_repositories/taxref12Oiseaux.service';
+import { TaxRef12Reptiles } from '../_repositories/taxerf12Reptiles.service';
+import { TaxRef12Amphibiens } from '../_repositories/taxref12Amphibiens.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,21 +30,25 @@ export class RepositoryService {
   repo: Array<RepositoryModel> = [];
 
   constructor(
-    private basevegRepoService: BasevegRepositoryService,
-    private baseflorRepoService: BaseflorRepositoryService,
-    private bdtfxRepoService: BdtfxRepositoryService,
-    private bdtferRepoService: BdtferRepositoryService,
-    private pvf2RepoService: Pvf2RepositoryService,
-    private apdRepoService: ApdRepositoryService
+    private taxref12FloreRepoService: TaxRef12Flore,
+    private taxref12BryophytesRepoService: TaxRef12Bryophytes,
+    private taxref12AlguesRepoService: TaxRef12Algues,
+    private taxref12InsectesRepoService: TaxRef12Insectes,
+    private taxref12MammiferesRepoService: TaxRef12Mammiferes,
+    private taxref12OiseauxRepoService: TaxRef12Oiseaux,
+    private taxref12ReptilesRepoService: TaxRef12Reptiles,
+    private taxref12AmphibiensRepoService: TaxRef12Amphibiens
   ) {
 
     this.repo.push(
-      this.basevegRepoService,
-      this.baseflorRepoService,
-      this.bdtfxRepoService,
-      this.bdtferRepoService,
-      this.pvf2RepoService,
-      this.apdRepoService
+      this.taxref12FloreRepoService,
+      this.taxref12BryophytesRepoService,
+      this.taxref12AlguesRepoService,
+      this.taxref12InsectesRepoService,
+      this.taxref12MammiferesRepoService,
+      this.taxref12OiseauxRepoService,
+      this.taxref12ReptilesRepoService,
+      this.taxref12AmphibiensRepoService
     );
   }
 

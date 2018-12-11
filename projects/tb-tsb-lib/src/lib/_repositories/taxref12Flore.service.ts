@@ -13,8 +13,8 @@ import { Observable } from 'rxjs';
 export class TaxRef12Flore implements RepositoryModel {
   id = 'taxref12Flore';
   label = 'Flore vasc.';
-  apiUrl = `http://localhost:9200/taxrefv12/_search`;
-  apiUrl2 = `http://localhost:9200/taxrefv12/_search`;
+  apiUrl = `http://51.38.37.216:9200/taxrefv12/_search`;
+  apiUrl2 = `http://51.38.37.216:9200/taxrefv12/_search`;
   levels = ['idiotaxon'];
   description_fr = ``;
 

@@ -1,16 +1,24 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
+import { RepositoryItemModel } from 'tb-tsb-lib/lib/_models/repository-item.model';
 
 @Component({
   selector: 'app-test-app',
   templateUrl: './test-app.component.html',
   styleUrls: ['./test-app.component.css']
 })
-export class TestAppComponent {
+export class TestAppComponent implements OnInit {
 
   taxons: Array<any> = [];
-  _updateData = null;
+  _updateData: RepositoryItemModel; // = null;
+  fixedRepository: string;
+  occ: RepositoryItemModel;
 
   constructor() { }
+
+  ngOnInit() {
+    this.occ = {} as RepositoryItemModel;
+    // this._updateData = this.occ;
+  }
 
   /**
    * When user has entered a new data

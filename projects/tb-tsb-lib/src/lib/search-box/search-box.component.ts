@@ -30,13 +30,17 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   // INPUT OUTPUT
   //
   @Input() set level(value: string) {                 // value = idiotaxon, synusy, microcenosis...
-    this._level = value;
-    this.initRepo();
+    if (value) {
+      this._level = value;
+      this.initRepo();
+    }
   }
   @Input() defaultRepository = '';                    // set a default repository (auto selected)
   @Input() set fixedRepository(value: string) {       // fix a choosen repository (0 == noOne/unknow)
-    this._fixedRepository = value;
-    value !== '' ? this.form.controls.repository.disable() : this.form.controls.repository.enable();
+    if (value) {
+      this._fixedRepository = value;
+      value !== '' ? this.form.controls.repository.disable() : this.form.controls.repository.enable();
+    }
   }
   @Input() set allowEmptyRepository(value: boolean) { // user can enter data that is not present in a repository
     this._allowEmptyRepository = value;
@@ -55,7 +59,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() showRepositoryDescription = false;
   @Input() attachRawData = false;                     // rawData is the set of data before passing through the standardize() method
   @Input() set updateData(value: RepositoryItemModel) {
-    if (value !== null) { this.startEditingTaxo(value); }
+    if (value && value !== null) { this.startEditingTaxo(value); }
   }
 
   @Output() newData = new EventEmitter<RepositoryItemModel>();

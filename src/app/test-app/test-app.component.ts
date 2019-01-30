@@ -11,6 +11,7 @@ export class TestAppComponent implements OnInit {
   taxons: Array<any> = [];
   _updateData: RepositoryItemModel; // = null;
   fixedRepository: string;
+  _reset: boolean;
   occ: RepositoryItemModel;
 
   constructor() { }
@@ -18,6 +19,13 @@ export class TestAppComponent implements OnInit {
   ngOnInit() {
     this.occ = {} as RepositoryItemModel;
     // this._updateData = this.occ;
+  }
+
+  reset() {
+    this._reset = true;
+    setTimeout(() => {
+      this._reset = false;
+    }, 1000);
   }
 
   /**

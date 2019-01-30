@@ -6,8 +6,8 @@
 
 <tb-tsb-search-box
 (newData)="newData($event)"
-level="synusy"
 [fixedRepository]="fixedRepository"
+[reset]="_reset"
 [updateData]="_updateData"
 (updatedData)="updatedData($event)"
 (cancelUpdateData)="cancelUpdateData($event)"
@@ -41,3 +41,4 @@ defaultRepository="bdtfx"></tb-tsb-search-box>
 </table>
 <br />
 <span><i>Voir le log de la console pour les événements émis.</i></span>
+<p (click)="reset()">RESET</p>

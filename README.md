@@ -52,6 +52,7 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 | showRepositoryDescription |    | boolean  |         | false | affiche la description du référentiel |
 | attachRawData             |        | boolean  |         | false | ajoute l'objet rawData à la réponse |
 | **updateData**            |        | RepositoryItemModel |  |   | pour mettre à jour une donnée (bien spécifier l'occurenceId). Le module se met en mode 'isEditing', pré-rempli le champ de recherche, change le référentiel courant sur le référentiel de la donnée à éditer. Un événement updatedData ou cancelUpdateData est forcément renvoyé, selon l'action de l'utilisateur, avant de quitter le mode 'isEditing'
+| reset                     |        | boolean  |          | false            | RAZ du composant si true |
 
 ### Paramètres en sortie @Output
 
@@ -66,16 +67,17 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 
 RepositoryItemModel :
 
-| Propriété   | Type             | Commentaire |
-| ---         | ---              | ---         |
-| occurenceId | number           | optionnel. id de l'occurence. Lors d'une édition, le champ est renseigné |
-| repository  | string           |
-| idNomen     | number \| string |
-| idTaxo      | number \| string | optionnel   |
-| name        | string           |
-| author      | string           |
-| isSynonym   | boolean          | optionnel   |
-| rawData     | any              | optionnel   |
+| Propriété      | Type                | Commentaire |
+| ---            | ---                 | ---         |
+| occurenceId    | number              | optionnel. id de l'occurence. Lors d'une édition, le champ est renseigné |
+| repository     | string              |
+| idNomen        | number \| string    |
+| idTaxo         | number \| string    | optionnel   |
+| name           | string              |
+| author         | string              |
+| isSynonym      | boolean             | optionnel   |
+| rawData        | any                 | optionnel. Contient les données brutes (de l'occurence) issues du référentiel   |
+| validOccurence | RepositoryItemModel | optionnel. Peut avoir les propriétés `idNomen`, `idTaxo`, `name`, `author` égales à "NA" si aucune occurence valide n'a été trouvée dans le référentiel |
 
 ## Serveur de développement
 

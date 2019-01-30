@@ -3,6 +3,7 @@ import { RepositoryModel } from '../_models/repository.model';
 import { RepositoryItemModel } from '../_models/repository-item.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { isDefined } from '@angular/compiler/src/util';
 
 /**
  * BDTFX
@@ -74,14 +75,20 @@ export class BdtfxRepositoryService implements RepositoryModel {
   standardizeValidOccurence = (rawData: any): RepositoryItemModel => {
     const sData: RepositoryItemModel = {repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
 
-    const nomSci = rawData['nom_retenu.libelle'];
-    const nomSciCompletValid = rawData.nom_retenu_complet;
-
-    sData.name = nomSci;
-    sData.author = nomSciCompletValid.substr(nomSci.length + 1, (nomSciCompletValid.length - nomSci.length));
-    sData.idTaxo = rawData['nom_retenu.id'];
-    sData.idNomen = rawData['nom_retenu.id'];
-    sData.isSynonym = false;
+    if (!isDefined(rawData['nom_retenu.id'])) {
+      sData.name = 'NA';
+      sData.author = 'NA';
+      sData.idTaxo = 'NA';
+      sData.idNomen = 'NA';
+      sData.isSynonym = false;
+    } else {
+      const nomSci = rawData['nom_retenu.libelle'];
+      sData.name = nomSci;
+      sData.author = rawData['auteur'];
+      sData.idTaxo = rawData['nom_retenu.id'];
+      sData.idNomen = rawData['nom_retenu.id'];
+      sData.isSynonym = false;
+    }
 
     return sData;
 

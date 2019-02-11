@@ -58,6 +58,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() showAuthor = true;                         // show author into search box
   @Input() showRepositoryDescription = false;
   @Input() attachRawData = false;                     // rawData is the set of data before passing through the standardize() method
+  @Input() emitOccurenceOnBlur = false;                        // emit event on blur if repo == other/unknow
   @Input() set updateData(value: RepositoryItemModel) {
     if (value && value !== null) { this.startEditingTaxo(value); }
   }
@@ -240,7 +241,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && this.dataFromRepo.length === 0 && !this.isSearching)
     ) {
 
-      // if input value is empty, return
+      // if not autoReset input on any known repo OR if input value is empty, then return
+      if (!this.autoResetWhenSelected && this.currentRepository !== 'otherunknow') { return; }
       if (this.form.controls.input.value.replace(' ', '') === '') { return; }
 
       // response model
@@ -272,6 +274,15 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       if (this.autoResetWhenSelected) { this.resetInput(); }
     }
 
+  }
+
+  /**
+   * When input lose focus
+   */
+  onBlur() {
+    if (this.emitOccurenceOnBlur && this.currentRepository.toLowerCase() === 'otherunknow') {
+      this.keyDownEnter();
+    }
   }
 
   /**

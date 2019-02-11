@@ -19,6 +19,7 @@
                     [matAutocomplete]="auto"
                     [matAutocompleteDisabled]="autoComplete?false:true"
                     (keyDown.enter)="keyDownEnter()"
+                    (blur)="onBlur()"
                     [errorStateMatcher]="matcher"
                     >
     <mat-autocomplete #auto="matAutocomplete" [autoActiveFirstOption]=true [displayWith]="showAuthor?displayInputWithAuthor.bind(this):displayInputWithoutAuthor.bind(this)">

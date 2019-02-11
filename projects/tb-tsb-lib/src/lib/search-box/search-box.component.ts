@@ -244,7 +244,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       if (this.form.controls.input.value.replace(' ', '') === '') { return; }
 
       // response model
-      const rimResponse: RepositoryItemModel = {occurenceId: null, repository: null, idNomen: null, idTaxo: null, name: null, author: null};
+      const rimResponse: RepositoryItemModel = {occurenceId: null, repository: null, idNomen: null, idTaxo: null, name: null, author: null, isSynonym: false, validOccurence: null};
 
       // if we are editing data
       // emit an updatedData event

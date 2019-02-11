@@ -32,7 +32,7 @@ defaultRepository="bdtfx"></tb-tsb-search-box>
     <td>{{ taxon.occurenceId }}</td>
     <td>{{ taxon.repository }}</td>
     <td>{{ taxon.idNomen }}</td>
-    <td>{{ taxon.validOccurence.idNomen }}</td>
+    <td>{{ taxon.validOccurence?.idNomen }}</td>
     <td>{{ taxon.name }}</td>
     <td>{{ taxon.author }}</td>
     <td>{{ taxon.validOccurence?.name }} {{ taxon.validOccurence?.author }}</td>

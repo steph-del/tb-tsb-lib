@@ -51,6 +51,7 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 | showAuthor                |        | boolean  |         | true | affiche les autorités dans l'autocomplete |
 | showRepositoryDescription |    | boolean  |         | false | affiche la description du référentiel |
 | attachRawData             |        | boolean  |         | false | ajoute l'objet rawData à la réponse |
+| emitOccurenceOnBlur       |        | boolean  |         | false | emet l'occurence quand l'input perd le focus et uniquement si le référentiel est 'other/unknow' |
 | **updateData**            |        | RepositoryItemModel |  |   | pour mettre à jour une donnée (bien spécifier l'occurenceId). Le module se met en mode 'isEditing', pré-rempli le champ de recherche, change le référentiel courant sur le référentiel de la donnée à éditer. Un événement updatedData ou cancelUpdateData est forcément renvoyé, selon l'action de l'utilisateur, avant de quitter le mode 'isEditing'
 | reset                     |        | boolean  |          | false            | RAZ du composant si true |
 

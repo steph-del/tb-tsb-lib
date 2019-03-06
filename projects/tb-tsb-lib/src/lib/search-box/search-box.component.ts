@@ -241,9 +241,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && this.dataFromRepo.length === 0 && !this.isSearching)
     ) {
 
-      // if not autoReset input on any known repo OR if input value is empty, then return
-      if (!this.autoResetWhenSelected && this.currentRepository !== 'otherunknow') { return; }
-      if (this.form.controls.input.value.replace(' ', '') === '') { return; }
+      // if current value is an object OR an empty string, return
+      if (typeof(this.form.controls.input.value) === 'object') { return; }
+      if (typeof(this.form.controls.input.value) === 'string' && this.form.controls.input.value.replace(' ', '') === '') { return; }
 
       // response model
       const rimResponse: RepositoryItemModel = {occurenceId: null, repository: null, idNomen: null, idTaxo: null, name: null, author: null, isSynonym: false, validOccurence: null};
@@ -280,7 +280,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * When input lose focus
    */
   onBlur() {
-    if (this.emitOccurenceOnBlur && this.currentRepository.toLowerCase() === 'otherunknow') {
+    if (this.emitOccurenceOnBlur) {
       this.keyDownEnter();
     }
   }

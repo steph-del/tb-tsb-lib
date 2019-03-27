@@ -14,7 +14,7 @@ import { isDefined } from '@angular/compiler/src/util';
 export class BdtfxRepositoryService implements RepositoryModel {
   id = 'bdtfx';
   label = 'bdtfx';
-  apiUrl = `http://api.tela-botanica.org/service:cel/NameSearch/bdtfx/`;
+  apiUrl = `https://api.tela-botanica.org/service:cel/NameSearch/bdtfx/`;
   apiUrl2 = ``;
   apiUrlValidOccurence = 'https://api.tela-botanica.org/service:eflore:0.1/bdtfx/noms/';
   levels = ['idiotaxon'];

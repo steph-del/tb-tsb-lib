@@ -60,7 +60,7 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 
 | Propriété          | Valeur(s)                     | Remarque |
 | ---                | ---                           | ---         |
-| newData            | RepositoryItemModel           | newData est utilisé quand l'utilisateur à selecionné une donnée (hors édition) |
+| newData            | RepositoryItemModel           | newData est utilisé quand l'utilisateur à selectionné une donnée (hors édition) |
 | updatedData        | RepositoryItemModel           | updatedData est utilisé quand l'utilisateur a selectionné une nouvelle valeur pour une donnée existante. |
 | cancelUpdateData   | `{occurenceId: number}`       | cancelUpdateData est utilisé quand l'utilisateur à annulé l'édition d'une donnée. Renvoie l'id de l'occurence pour laquelle l'édition est annulée |
 | selectedRepository | string                        | selectedRepository est renvoyé quand l'utilisateur à changé de référentiel (attention, aucune valeur n'est émise si le référentiel est changé automatiquement lors de l'édition d'une donnée) |

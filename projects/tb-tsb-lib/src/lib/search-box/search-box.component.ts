@@ -35,6 +35,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       this.initRepo();
     }
   }
+  @Input() tbRepositoriesConfig = [];                   // list here all Tela Botanica's API provided repositories
   @Input() defaultRepository = '';                    // set a default repository (auto selected)
   @Input() set fixedRepository(value: string) {       // fix a choosen repository (0 == noOne/unknow)
     if (value) {
@@ -113,8 +114,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Initializes the repositories and watch for inputs changes
    */
   ngOnInit() {
+    //
+    this.repositoryService.setTbRepositoriesConfig(this.tbRepositoriesConfig);
+
     // Initialize repositories list and configuration
     this.initRepo();
+
     // Watch repository change
     this.subscription1 = this.form.controls.repository.valueChanges.subscribe(
       (repoValue) => {

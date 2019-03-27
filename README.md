@@ -36,6 +36,7 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 | Paramètre                 | Requis | Type     | Valeurs | Valeur par défaut | Description |
 | ---                       | ---    | ---      | ---     | ---               | ---         |
 | level                     |        | string   | "idiotaxon", "synusy", "microcenosis", etc. | "idiotaxon" | le niveau d'intégration. Pour le Cel, ce sera toujours 'idiotaxon' |
+| tbRepositoriesConfig        |        | `Array<TbRepositoryConfigModel>` | - | - | Liste des référentiels provenant de l'API de Tela Botanica à ajouter dynamiquement |
 | defaultRepository         |        | string   | un nom de référentiel | Le premier accessible | référentiel à utiliser par défaut |
 | fixedRepository           |        | string   | un nom de référentiel | - | forcer l'utilisation d'un référentiel |
 | allowEmptyRepository      |        | boolean  |         | true | autorise la saisie d'une donnée hors référentiel (ajoute un référentiel 'Autre/inconnu' à la liste des ref.) |
@@ -79,6 +80,17 @@ RepositoryItemModel :
 | isSynonym      | boolean             | optionnel   |
 | rawData        | any                 | optionnel. Contient les données brutes (de l'occurence) issues du référentiel   |
 | validOccurence | RepositoryItemModel | optionnel. Peut avoir les propriétés `idNomen`, `idTaxo`, `name`, `author` égales à "NA" si aucune occurence valide n'a été trouvée dans le référentiel |
+
+TbRepositoryConfigModel :
+
+| Propriété      | Type                | Commentaire |
+| id             | string              | Identifiant du référentiel (souvent son nom en minuscules) ; éviter les caractères spéciaux |
+| label          | string              | Nom du référentiel tel qu'il sera affiché dans la liste déroulante |
+| levels         | string[]            | Niveau(x) d'intégration du référentiel. Pour tous les référentiels floristiques, utiliser `['idiotaxon']` |
+| apiUrl         | string              | Url de l'API 'NameSearch'. Souvent du type 'https://api.tela-botanica.org/service:cel/NameSearch/{Ref}' |
+| apiUrl2        | string              | Url de secours de l'API 'NameSearch'. Non utilisé pour l'instant. Laissez vide. |
+| apiUrlValidOccurence | string        | Url de l'API 'noms'. Souvent du type 'https://api.tela-botanica.org/service:eflore:0.1/{Ref}/noms/' |
+| description_fr | string              | Description en français du référentiel. |
 
 ## Serveur de développement
 

@@ -6,6 +6,7 @@ import { RepositoryService } from '../_services/repository.service';
 import { RepositoryItemModel } from '../_models/repository-item.model';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import { Subscription, of } from 'rxjs';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material';
 
 /**
  * Override default Angular Material ErrorState
@@ -25,6 +26,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
   @ViewChild('taxoInput') taxoInput: ElementRef;
+  @ViewChild('matAutocomplete', { read: MatAutocompleteTrigger}) autocomplete: MatAutocompleteTrigger;
 
   //
   // INPUT OUTPUT
@@ -50,6 +52,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() allowFreeValueIfNoResults = true;          // if there is no results, user can manually enter a value
   @Input() autoComplete = true;                       // should the component show an autocomplete ? If false, just show an input and @output all results
   @Input() autoResetWhenSelected = true;              // reset the input after a data is selected
+  @Input() autoSelectValueIfOnlyOneResult = false;    // if there is ONLY ONE result, select it
   @Input() showRepositoryInput = true;                // show / hide repository input
   @Input() inputFullWidth = true;                     // width = 100%
   @Input() floatLabel = 'auto';                       // auto | always | never
@@ -72,6 +75,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Output() cancelUpdateData = new EventEmitter<{occurenceId: number}>();
   @Output() selectedRepository = new EventEmitter<string | number>();
   @Output() allResults = new EventEmitter<any>();
+  @Output() httpError = new EventEmitter();
 
   //
   // VARS
@@ -185,12 +189,25 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         this.dataFromRepo = results;
         this.isLoading = false;
         this.isSearching = false;
+        if (this.autoComplete && this.autoSelectValueIfOnlyOneResult && this.dataFromRepo.length === 1) {
+          if (this.isEditingData) {
+            this.checkAndEmitUpdatedData(this.dataFromRepo[0]);
+            this.stopEditingTaxo();
+          } else {
+            this.checkAndEmitNewData(this.dataFromRepo[0]);
+          }
+        } else if (this.autoComplete && this.dataFromRepo.length > 1 && this.isEditingData) {
+          // When edit data pushed to the input, autocomplete panel doesn't open...
+          if (!this.autocomplete.panelOpen) { this.autocomplete.openPanel(); }
+        }
         // If there is no autocomplete, we send all results through @Output allResults
         if (!this.autoComplete) {
           this.dataFromRepo = [];
           this.allResults.next(results);
         }
       }
+    }, error => {
+      this.httpError.next(error);
     });
   }
 
@@ -450,8 +467,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.lastUsedRepositoryValue = this.currentRepository;
     this.setRepository(value.repository);
     // patch input data
-    const inputValue = (this.showAuthor && value.author && value.author !== '') ? value.name + ' ' + value.author : value;
-    this.form.patchValue({'input': inputValue}, {emitEvent: false});
+    let inputValue: string;
+    if (this.showAuthor && value.author && value.author !== '') { inputValue = value.name + ' ' + value.author; }
+    if (!value.author || value.name && value.name === '') { inputValue = value.name; }
+    // @Todo If no name and no author : Can't do anything !
+    this.form.patchValue({'input': inputValue}, {emitEvent: true});
 
     this.taxoInput.nativeElement.focus();
   }

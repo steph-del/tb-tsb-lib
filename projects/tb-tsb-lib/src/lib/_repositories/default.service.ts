@@ -54,11 +54,12 @@ export class DefaultRepositoryService /* implements RepositoryModel */ {
     return request;
   }
 
-  standardize = (rawData: any, attachRawData: boolean = false): any => {
+  standardize = (repository: string, rawData: any, attachRawData: boolean = false): any => {
     const sData: Array<RepositoryItemModel> = [];
 
     rawData.forEach(item => {
       const rim: RepositoryItemModel = {repository: null, name: null, author: null, idTaxo: null, idNomen: null, isSynonym: false, rawData: null};
+      rim.repository = repository;
       rim.name = item[3];
       rim.author = item[0].substr(item[3].length + 1, (item[0].length - item[3].length));
       rim.idTaxo = null; // not provided

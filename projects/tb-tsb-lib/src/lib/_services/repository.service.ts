@@ -113,7 +113,7 @@ export class RepositoryService {
       const url = this.getApiUrlForDefaultRepository(repository);
       return this.defaultRepositoryService
         .findElement(query, url)
-        .pipe(map(results => this.defaultRepositoryService.standardize(results, attachRawData)));
+        .pipe(map(results => this.defaultRepositoryService.standardize(repository, results, attachRawData)));
     } else {
       return this[(repository + 'RepoService')]
         .findElement(query)

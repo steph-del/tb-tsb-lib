@@ -14,7 +14,7 @@
 
   <!-- Input field -->
   <mat-form-field [class.fullWidth]="inputFullWidth" [color]="isEditingData?'accent':'primary'" [floatLabel]="floatLabel" [hintLabel]="hintRepoLabel?hintRepoLabelMessage():''">
-    <input #taxoInput matInput id="taxoInput" [formControl]="form.controls.input"
+    <input #taxoInput #matAutocomplete matInput id="taxoInput" [formControl]="form.controls.input"
                     placeholder="{{ inputPlaceholder() }}"
                     [matAutocomplete]="auto"
                     [matAutocompleteDisabled]="autoComplete?false:true"

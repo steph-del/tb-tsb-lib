@@ -11,6 +11,7 @@ export class TestAppComponent implements OnInit {
   taxons: Array<any> = [];
   _updateData: RepositoryItemModel; // = null;
   fixedRepository: string;
+  autoSelectValueIfOnlyOneResult = true;
   _reset: boolean;
   occ: RepositoryItemModel;
 
@@ -94,6 +95,32 @@ export class TestAppComponent implements OnInit {
     setTimeout(() => {
       this._reset = false;
     }, 1000);
+  }
+
+  testInputData() {
+    // this.showAuthor = false;
+    const taxon1 = {
+      name: 'Passiflora edulis',
+      repository: 'bdtfx',
+      idNomen: null,
+      author: 'Sims'
+    };
+
+    this.taxons.push(taxon1);
+    this._updateData = taxon1;
+  }
+
+  testInputData2() {
+    // this.showAuthor = false;
+    const taxon2 = {
+      name: 'Passiflora',
+      repository: 'bdtfx',
+      idNomen: null,
+      author: null
+    };
+
+    this.taxons.push(taxon2);
+    this._updateData = taxon2;
   }
 
   /**

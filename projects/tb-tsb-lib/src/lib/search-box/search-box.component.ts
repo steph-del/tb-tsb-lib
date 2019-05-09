@@ -269,11 +269,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && this.dataFromRepo.length === 0 && !this.isSearching)
     ) {
 
-      // if current value is an object OR an empty string, emit null value and return
-      if (typeof(this.form.controls.input.value) === 'object') {
-        this.newData.next(null);
-        return;
-      }
+      // if current value is an empty string, emit null value and return
+      if (typeof(this.form.controls.input.value) === 'object') { return; }
       if (typeof(this.form.controls.input.value) === 'string' && this.form.controls.input.value.replace(/ /g, '') === '') {
         this.newData.next(null);
         return;

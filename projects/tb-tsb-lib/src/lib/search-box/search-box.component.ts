@@ -260,12 +260,18 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     // or there is no results for the search && allowFreeValueIfNoResults
     if (
       (this._allowEmptyRepository && this.currentRepository === 'otherunknow')
-      || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && this.dataFromRepo.length === 0 && !this.isSearching)
+      || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && !this.isSearching)
     ) {
 
-      // if current value is an object OR an empty string, return
-      if (typeof(this.form.controls.input.value) === 'object') { return; }
-      if (typeof(this.form.controls.input.value) === 'string' && this.form.controls.input.value.replace(' ', '') === '') { return; }
+      // if current value is an object OR an empty string, return null value
+      if (typeof(this.form.controls.input.value) === 'object') {
+        if (this.form.controls.input.value.replace(' ', '') === '') {
+          this.newData.next(null);
+        } else {
+          return;
+        }
+      }
+      if (typeof(this.form.controls.input.value) === 'string' && this.form.controls.input.value.replace(' ', '') === '') { this.newData.next(null); }
 
       // response model
       const rimResponse: RepositoryItemModel = {occurenceId: null, repository: null, idNomen: null, idTaxo: null, name: null, author: null, isSynonym: false, validOccurence: null};

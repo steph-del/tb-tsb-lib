@@ -129,7 +129,11 @@ export class TestAppComponent implements OnInit {
   newData(data: TaxonType) {
     console.log('Event \'newData\' :');
     console.log(data);
-    this.addTaxon(data);
+    if (data === null) {
+      console.log('null data');
+    } else {
+      this.addTaxon(data);
+    }
   }
 
   addTaxon(taxon: TaxonType) {
@@ -153,30 +157,34 @@ export class TestAppComponent implements OnInit {
    */
   updatedData(data: TaxonType) {
     console.log('Event \'updatedData\' :');
-    console.log(data);
+    if (data === null) {
+      console.log('null data');
+    } else {
+      console.log(data);
 
-    //
-    // Here, you should register the updated data in db
-    //
+      //
+      // Here, you should register the updated data in db
+      //
 
-    // for demo, we only update the data in taxons[]
-    let taxonToUpdate: TaxonType;
-    this.taxons.forEach(taxon => {
-      if (data.occurenceId === taxon.occurenceId) {
-        taxonToUpdate = taxon;
-      }
-    });
+      // for demo, we only update the data in taxons[]
+      let taxonToUpdate: TaxonType;
+      this.taxons.forEach(taxon => {
+        if (data.occurenceId === taxon.occurenceId) {
+          taxonToUpdate = taxon;
+        }
+      });
 
-    // We need to set manually those data because change detection will not
-    // occure while object reference stay the same
-    // an other solution could be to use immutable objects
-    taxonToUpdate.repository = data.repository;
-    taxonToUpdate.idTaxo = data.idTaxo;
-    taxonToUpdate.idNomen = data.idNomen;
-    taxonToUpdate.name = data.name;
-    taxonToUpdate.author = data.author;
-    taxonToUpdate.isSynonym = data.isSynonym;
-    taxonToUpdate.validOccurence = data.validOccurence;
+      // We need to set manually those data because change detection will not
+      // occure while object reference stay the same
+      // an other solution could be to use immutable objects
+      taxonToUpdate.repository = data.repository;
+      taxonToUpdate.idTaxo = data.idTaxo;
+      taxonToUpdate.idNomen = data.idNomen;
+      taxonToUpdate.name = data.name;
+      taxonToUpdate.author = data.author;
+      taxonToUpdate.isSynonym = data.isSynonym;
+      taxonToUpdate.validOccurence = data.validOccurence;
+    }
   }
 
   /**

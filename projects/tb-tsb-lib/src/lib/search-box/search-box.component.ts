@@ -148,6 +148,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         // value is a string = user types on keyboard,
         // request the server via repositoryService
         if (typeof(value) === 'string' && this.currentRepository !== 'otherunknow') {
+
+          if (value.replace(/ /g, '') === '') {
+            this.dataFromRepo = [];
+            return of([]);
+          }
+
           // loading...
           this.isLoading = true;
 
@@ -260,18 +266,18 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     // or there is no results for the search && allowFreeValueIfNoResults
     if (
       (this._allowEmptyRepository && this.currentRepository === 'otherunknow')
-      || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && !this.isSearching)
+      || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && this.dataFromRepo.length === 0 && !this.isSearching)
     ) {
 
-      // if current value is an object OR an empty string, return null value
+      // if current value is an object OR an empty string, emit null value and return
       if (typeof(this.form.controls.input.value) === 'object') {
-        if (this.form.controls.input.value.replace(' ', '') === '') {
-          this.newData.next(null);
-        } else {
-          return;
-        }
+        this.newData.next(null);
+        return;
       }
-      if (typeof(this.form.controls.input.value) === 'string' && this.form.controls.input.value.replace(' ', '') === '') { this.newData.next(null); }
+      if (typeof(this.form.controls.input.value) === 'string' && this.form.controls.input.value.replace(/ /g, '') === '') {
+        this.newData.next(null);
+        return;
+      }
 
       // response model
       const rimResponse: RepositoryItemModel = {occurenceId: null, repository: null, idNomen: null, idTaxo: null, name: null, author: null, isSynonym: false, validOccurence: null};

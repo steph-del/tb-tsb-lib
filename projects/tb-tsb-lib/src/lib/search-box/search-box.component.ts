@@ -476,9 +476,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.lastUsedRepositoryValue = this.currentRepository;
     this.setRepository(value.repository);
     // patch input data
-    let inputValue: string;
-    if (this.showAuthor && value.author && value.author !== '') { inputValue = value.name + ' ' + value.author; }
-    if (!value.author || value.name && value.name === '') { inputValue = value.name; }
+    let inputValue = '';
+    if (value.name && value.name !== '') { inputValue = value.name; }
     // @Todo If no name and no author : Can't do anything !
     this.form.patchValue({'input': inputValue}, {emitEvent: true});
 
@@ -493,6 +492,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.editingOccurenceId = null;
     this.placeholder = this.lastPlaceholderValue;
     this.setRepository(this.lastUsedRepositoryValue);
+    this.autocomplete.closePanel();
+    this.dataFromRepo = [];
   }
 
   /**

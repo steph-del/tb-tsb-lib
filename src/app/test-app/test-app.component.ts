@@ -26,7 +26,7 @@ export class TestAppComponent implements OnInit {
       description_fr: ''
     }, {
       id: 'bdtfxr',
-      label: 'Métropolole (index réduit)',
+      label: 'Métropole (index réduit)',
       levels: ['idiotaxon'],
       apiUrl: 'https://api.tela-botanica.org/service:cel/NameSearch/bdtfxr/',
       apiUrl2: '',

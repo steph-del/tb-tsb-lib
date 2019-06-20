@@ -15,7 +15,7 @@
   <!-- Input field -->
   <mat-form-field [class.fullWidth]="inputFullWidth" [color]="isEditingData?'accent':'primary'" [floatLabel]="floatLabel" [hintLabel]="hintRepoLabel?hintRepoLabelMessage():''">
     <input #taxoInput #matAutocomplete matInput id="taxoInput" [formControl]="form.controls.input"
-                    matTooltip="Saisir le taxon observé, en utilisant l\'autocomplétion autant que possible"
+                    matTooltip="Saisir le taxon observé, en utilisant l'autocomplétion autant que possible"
                     placeholder="{{ inputPlaceholder() }}"
                     [matAutocomplete]="auto"
                     [matAutocompleteDisabled]="autoComplete?false:true"

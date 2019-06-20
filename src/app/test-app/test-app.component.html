@@ -10,6 +10,7 @@
 [reset]="_reset"
 [updateData]="_updateData"
 [autoSelectValueIfOnlyOneResult]="autoSelectValueIfOnlyOneResult"
+[enabled]="enabled"
 (updatedData)="updatedData($event)"
 (cancelUpdateData)="cancelUpdateData($event)"
 [autoResetWhenSelected]="false"
@@ -44,6 +45,7 @@ defaultRepository="bdtfx"></tb-tsb-search-box>
 </table>
 <br />
 <span><i>Voir le log de la console pour les événements émis.</i></span>
+<button (click)="toggleEnabled()">toggle enabled</button>
 <p (click)="reset()">RESET</p>
 <p (click)="testInputData()">TEST INPUT DATA</p>
 <p (click)="testInputData2()">TEST2 INPUT DATA</p>

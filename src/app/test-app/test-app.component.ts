@@ -14,6 +14,7 @@ export class TestAppComponent implements OnInit {
   autoSelectValueIfOnlyOneResult = true;
   _reset: boolean;
   occ: RepositoryItemModel;
+  enabled = true;
 
   tbRepositoriesConfig = [
     {
@@ -192,6 +193,10 @@ export class TestAppComponent implements OnInit {
    */
   cancelUpdateData(data: { occurenceId: number }) {
     console.log(`Event 'cancelUpdateData' for occurenceId ${data.occurenceId}`);
+  }
+
+  toggleEnabled() {
+    this.enabled = !this.enabled;
   }
 }
 

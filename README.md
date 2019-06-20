@@ -54,6 +54,7 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 | attachRawData             |        | boolean  |         | false | ajoute l'objet rawData à la réponse |
 | emitOccurenceOnBlur       |        | boolean  |         | false | emet l'occurence quand l'input perd le focus et uniquement si l'occurence n'a pas été selectionnée dans la liste déroulante des résultats (= n'est pas liée à un référentiel) |
 | **updateData**            |        | RepositoryItemModel |  |   | pour mettre à jour une donnée (bien spécifier l'occurenceId). Le module se met en mode 'isEditing', pré-rempli le champ de recherche, change le référentiel courant sur le référentiel de la donnée à éditer. Un événement updatedData ou cancelUpdateData est forcément renvoyé, selon l'action de l'utilisateur, avant de quitter le mode 'isEditing'
+| enabled                   |        | boolean  |          | true             | si false, desactive les champs de saisie
 | reset                     |        | boolean  |          | false            | RAZ du composant si true |
 
 ### Paramètres en sortie @Output

@@ -198,6 +198,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     .pipe(catchError(error => of([])))
     .subscribe((results: Array<RepositoryItemModel>) => {
       if (results !== []) {
+        this.autocomplete.openPanel();   // Force opening panel if results
         this.dataFromRepo = results;
         this.isLoading = false;
         this.isSearching = false;

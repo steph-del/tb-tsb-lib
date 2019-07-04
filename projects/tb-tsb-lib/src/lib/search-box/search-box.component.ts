@@ -59,6 +59,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() hintRepoLabel = true;                      // label below search box input = repo name
   @Input() placeholder = '';                          // to change the default placeholder ("Taxon" | "Syntaxon")
   @Input() editingPlaceholder = 'Modifier une donnée';  // placeholder while editing a data
+  @Input() startSearchAtEdit = false;
   @Input() showAuthor = true;                         // show author into search box
   @Input() showRepositoryDescription = false;
   @Input() attachRawData = false;                     // rawData is the set of data before passing through the standardize() method
@@ -134,8 +135,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.subscription1 = this.form.controls.repository.valueChanges.subscribe(
       (repoValue) => {
         this.currentRepository = repoValue;
-        this.resetInput();
-        this.dataFromRepo = [];
+        if (!this.isEditingData) {
+          this.resetInput();
+          this.dataFromRepo = [];
+        }
         this.selectedRepository.next(repoValue);
       }
     );
@@ -318,7 +321,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * When input lose focus
    */
   onBlur() {
-    if (this.emitOccurenceOnBlur) {
+    if (this.emitOccurenceOnBlur && !this.isEditingData) {
       this.keyDownEnter();
     }
   }
@@ -484,9 +487,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.setRepository(value.repository);
     // patch input data
     let inputValue = '';
-    if (value.name && value.name !== '') { inputValue = value.name; }
+    if (value.name && value.name !== '') { inputValue = value.name + (value.author && value.author !== '' ? ' ' + value.author : ''); }
     // @Todo If no name and no author : Can't do anything !
-    this.form.patchValue({'input': inputValue}, {emitEvent: true});
+    this.form.patchValue({'input': inputValue}, {emitEvent: this.startSearchAtEdit ? true : false});
 
     this.taxoInput.nativeElement.focus();
   }

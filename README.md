@@ -41,6 +41,8 @@ Par défaut, aucun paramètre n'est obligatoire. Si vous vous contentez d'insér
 | fixedRepository           |        | string   | un nom de référentiel | - | forcer l'utilisation d'un référentiel |
 | allowEmptyRepository      |        | boolean  |         | true | autorise la saisie d'une donnée hors référentiel (ajoute un référentiel 'Autre/inconnu' à la liste des ref.) |
 | allowFreeValueIfNoResults |        | boolean  |         | true | autorise la saisie d'une valeur libre s'il n'y a aucun résultat avec l'auto-completion |
+| autoSelectValueIfOnlyOneResult |   | boolean  |         | false | si la recherche ne renvoie qu'un seul résultat, il est automatiquement selectionné |
+| startSearchAtEdit         |        | boolean  |         | false | lance automatiquement une recherche quand le module pass en mode 'édition' |
 | autoComplete              |        | boolean  |         | true | si `false`, pas d'autocomplétion, le module renvoie tous les résultats |
 | autoResetWhenSelected     |        | boolean  |         | true | remet l'input de saisie à zéro après la saisie |
 | showRepositoryInput       |        | boolean  |         | true | affiche le sélecteur de référentiels |

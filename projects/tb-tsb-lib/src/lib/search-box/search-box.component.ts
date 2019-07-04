@@ -273,7 +273,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     // or there is no results for the search && allowFreeValueIfNoResults
     if (
       (this._allowEmptyRepository && this.currentRepository === 'otherunknow')
-      || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && this.dataFromRepo.length === 0 && !this.isSearching)
+      || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && this.dataFromRepo.length === 0)
     ) {
 
       // if current value is an empty string, emit null value and return

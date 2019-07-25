@@ -39,7 +39,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
   @Input() tbRepositoriesConfig = [];                   // list here all Tela Botanica's API provided repositories
   @Input() defaultRepository = '';                    // set a default repository (auto selected)
-  @Input() set fixedRepository(value: string) {       // fix a choosen repository (0 == noOne/unknow)
+  @Input() set fixedRepository(value: string) {       // fix a choosen repository (0 == noOne/unknown)
     if (value) {
       this._fixedRepository = value;
       value !== '' ? this.form.controls.repository.disable() : this.form.controls.repository.enable();
@@ -63,7 +63,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() showAuthor = true;                         // show author into search box
   @Input() showRepositoryDescription = false;
   @Input() attachRawData = false;                     // rawData is the set of data before passing through the standardize() method
-  @Input() emitOccurenceOnBlur = false;                        // emit event on blur if repo == other/unknow
+  @Input() emitOccurenceOnBlur = false;                        // emit event on blur if repo == other/unknown
   @Input() set updateData(value: RepositoryItemModel) {
     if (value && value !== null) { this.startEditingTaxo(value); }
   }
@@ -157,7 +157,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       (value) => {
         // value is a string = user types on keyboard,
         // request the server via repositoryService
-        if (typeof(value) === 'string' && this.currentRepository !== 'otherunknow') {
+        if (typeof(value) === 'string' && this.currentRepository !== 'otherunknown') {
 
           if (value.replace(/ /g, '') === '') {
             this.dataFromRepo = [];
@@ -273,11 +273,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   keyDownEnter() {
     //
-    // current repository is other/unknow
+    // current repository is other/unknown
     // or there is no results for the search && allowFreeValueIfNoResults
     if (
-      (this._allowEmptyRepository && this.currentRepository === 'otherunknow')
-      || (this.currentRepository !== 'otherunknow' && this.allowFreeValueIfNoResults && this.dataFromRepo.length === 0)
+      (this._allowEmptyRepository && this.currentRepository === 'otherunknown')
+      || (this.currentRepository !== 'otherunknown' && this.allowFreeValueIfNoResults && this.dataFromRepo.length === 0)
     ) {
 
       // if current value is an empty string, emit null value and return
@@ -296,7 +296,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         this.dataFromRepo = [];
         this.updatedData.next({
           occurenceId: this.editingOccurenceId,
-          repository: 'otherunknow',
+          repository: 'otherunknown',
           idTaxo: null,
           idNomen: null,
           name: this.form.controls.input.value,
@@ -307,7 +307,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       // emit a selectedData event
       } else {
         rimResponse.name = this.form.controls.input.value;
-        rimResponse.repository = 'otherunknow';
+        rimResponse.repository = 'otherunknown';
         this.dataFromRepo = [];
         this.newData.next(rimResponse);
       }
@@ -344,7 +344,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     // Allow unvalided data ?
     if (this._allowEmptyRepository) {
-      this.listRepo.push({value: 'otherunknow', label: 'Autre/inconnu'});
+      this.listRepo.push({value: 'otherunknown', label: 'Autre/inconnu'});
     }
 
     // Set default repository
@@ -468,8 +468,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       const availableRepo = this.listRepo;
       const listAvailableRepo: Array<string> = availableRepo.map(r => `'${r.label}'[${r.value}]`);
       if (this._allowEmptyRepository) {
-        this.setRepository('otherunknow');
-        console.log(`Le référentiel '${repository}' ne peut pas être utilisé. Le référentiel 'Autre/Inconnu[otherunknow]' est utilisé par défaut. Liste des référentiels utilisables : ${listAvailableRepo}.`);
+        this.setRepository('otherunknown');
+        console.log(`Le référentiel '${repository}' ne peut pas être utilisé. Le référentiel 'Autre/Inconnu[otherunknown]' est utilisé par défaut. Liste des référentiels utilisables : ${listAvailableRepo}.`);
       } else {
         if (availableRepo.length > 0) {
           this.setRepository(availableRepo[0].value);

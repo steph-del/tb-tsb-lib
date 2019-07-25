@@ -198,7 +198,7 @@ export class RepositoryService {
   }
 
   getRepositoryDescription(repository: string): string {
-    if (!repository || repository === 'otherunknow') { return ''; }
+    if (!repository || repository === 'otherunknown') { return ''; }
     if (this.isADefaultRepository(repository)) {
       return this.getDefaultRepositoryDescription(repository);
     } else {

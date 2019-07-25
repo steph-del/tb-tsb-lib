@@ -76,6 +76,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() set reset(value: boolean) {
     if (value && value === true) { this.resetComponent(); }
   }
+  @Input() restoreRepositoryValueAfterEditing = false;
 
   @Output() newData = new EventEmitter<RepositoryItemModel>();
   @Output() updatedData = new EventEmitter<RepositoryItemModel>();
@@ -517,7 +518,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.isEditingData = false;
     this.editingOccurenceId = null;
     this.placeholder = this.lastPlaceholderValue;
-    this.setRepository(this.lastUsedRepositoryValue);
+    if (this.restoreRepositoryValueAfterEditing) {
+      this.setRepository(this.lastUsedRepositoryValue);
+    }
     this.autocomplete.closePanel();
     this.dataFromRepo = [];
   }

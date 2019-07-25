@@ -67,6 +67,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() set updateData(value: RepositoryItemModel) {
     if (value && value !== null) { this.startEditingTaxo(value); }
   }
+  @Input() restoreRepositoryValueAfterEditing = false;
   @Input() set enabled(value: boolean) {
     try {
       if (value === true) { this.enableComponent(); }
@@ -76,7 +77,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() set reset(value: boolean) {
     if (value && value === true) { this.resetComponent(); }
   }
-  @Input() restoreRepositoryValueAfterEditing = false;
 
   @Output() newData = new EventEmitter<RepositoryItemModel>();
   @Output() updatedData = new EventEmitter<RepositoryItemModel>();

@@ -96,7 +96,7 @@ export class RepositoryService {
       if (repo.levels.indexOf(level) > -1) { availableRepositoryNames.push({value: repo.id, label: repo.label}); }
     });
 
-    if (availableRepositoryNames.length === 0) { throw new Error(`Aucun référentiel n'est disponible pour le niveau '${level}'.`); }
+    if (availableRepositoryNames.length === 0) { throw new RangeError(`Aucun référentiel n'est disponible pour le niveau '${level}'.`); }
     return availableRepositoryNames;
   }
 

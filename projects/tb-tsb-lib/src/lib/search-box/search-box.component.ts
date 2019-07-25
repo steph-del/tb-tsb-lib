@@ -464,7 +464,23 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     });
 
     if (!foundedRepository) {
-      throw new Error(`Le référentiel ${repository} ne peut pas être utilisé.`);
+      const availableRepo = this.listRepo;
+      const listAvailableRepo: Array<string> = availableRepo.map(r => `'${r.label}'[${r.value}]`);
+      if (this._allowEmptyRepository) {
+        this.setRepository('otherunknow');
+        console.log(`Le référentiel '${repository}' ne peut pas être utilisé. Le référentiel 'Autre/Inconnu[otherunknow]' est utilisé par défaut. Liste des référentiels utilisables : ${listAvailableRepo}.`);
+      } else {
+        if (availableRepo.length > 0) {
+          this.setRepository(availableRepo[0].value);
+          console.log(`Le référentiel '${repository}' ne peut pas être utilisé. Le référentiel '${availableRepo[0].label}' est utilisé par défaut. Liste des référentiels utilisables : ${listAvailableRepo}.`);
+        } else {
+          // No one repository available !
+          this.noOneRepositoryError = true;
+          this.noOneRepositoryErrorMessage = `
+          Le module tente de forcer le référentiel '${repository}' pour le niveau '${this._level}' mais aucun référentiel n'est disponible.
+          `;
+        }
+      }
     }
   }
 

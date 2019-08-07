@@ -15,6 +15,13 @@ export class TestAppComponent implements OnInit {
   _reset: boolean;
   occ: RepositoryItemModel;
   enabled = true;
+  startValue: RepositoryItemModel = {
+    repository: 'bdtfx',
+    idNomen: 39399,
+    idTaxo: 39399,
+    name: 'Linum bienne',
+    author: 'Mill. [1768]'
+  };
 
   tbRepositoriesConfig = [
     {

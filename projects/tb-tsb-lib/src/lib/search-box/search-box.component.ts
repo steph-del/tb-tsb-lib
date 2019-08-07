@@ -64,6 +64,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() showRepositoryDescription = false;
   @Input() attachRawData = false;                     // rawData is the set of data before passing through the standardize() method
   @Input() emitOccurenceOnBlur = false;                        // emit event on blur if repo == other/unknown
+  @Input() startWithValue: RepositoryItemModel;
   @Input() set updateData(value: RepositoryItemModel) {
     if (value && value !== null) { this.startEditingTaxo(value); }
   }
@@ -131,6 +132,15 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     // Initialize repositories list and configuration
     this.initRepo();
+
+    // Start with a predefined value
+    if (this.startWithValue) {
+      const repoIds = this.repositoryService.listAllRepositories().map(r => r.id);
+      if (repoIds.indexOf(this.startWithValue.repository) !== -1) {
+        this.form.controls.repository.setValue(this.startWithValue.repository, {emitEvent: false});
+        this.form.controls.input.setValue(this.startWithValue.name, {emitEvent: false});
+      }
+    }
 
     // Watch repository change
     this.subscription1 = this.form.controls.repository.valueChanges.subscribe(

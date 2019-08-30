@@ -136,7 +136,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     // Start with a predefined value
     if (this.startWithValue) {
       const repoIds = this.repositoryService.listAllRepositories().map(r => r.id);
-      if (repoIds.indexOf(this.startWithValue.repository) !== -1) {
+      if (
+        (repoIds.indexOf(this.startWithValue.repository) !== -1)
+        || (this.startWithValue.repository === 'otherunknown' && this._allowEmptyRepository)
+      ) {
         this.form.controls.repository.setValue(this.startWithValue.repository, {emitEvent: false});
         this.form.controls.input.setValue(this.startWithValue.name, {emitEvent: false});
       }

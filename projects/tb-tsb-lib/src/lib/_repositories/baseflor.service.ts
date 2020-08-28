@@ -27,19 +27,33 @@ export class BaseflorRepositoryService implements RepositoryModel {
       esQuery = `
         {
           "query" : {
-            "bool": {
-              "must": {
-                "term" : { "scientific_name": "${queryArray[0]}[a-z]*" }
-              }
+            "function_score": {
+              "query": {
+                "bool": {
+                  "must": {
+                    "term" : { "scientific_name": "${queryArray[0]}[a-z]*" }
+                  }
+                }
+              },
+              "functions": [{
+                "filter": { "term": { "taxonomic_rang": "esp" } },
+                  "random_score": {},
+                  "weight": 10
+              }],
+              "score_mode": "max",
+              "boost_mode": "multiply"
             }
           }
         }
       `;
     } else if (queryArray.length > 1) {
       const esQueryStart = `
-      { "query" :
-        { "bool":
-          { "must": [`;
+      {
+        "query" : {
+          "function_score": {
+            "query": {
+              "bool": {
+                "must": [`;
 
       let esQueryBody = '';
       let i = 0;
@@ -50,7 +64,16 @@ export class BaseflorRepositoryService implements RepositoryModel {
       });
 
       const esQueryEnd = `
-            ]
+                ]
+              }
+            },
+            "functions": [{
+              "filter": { "term": { "taxonomic_rang": "esp" } },
+                "random_score": {},
+                "weight": 23
+            }],
+            "score_mode": "max",
+            "boost_mode": "multiply"
           }
         }
       }`;

@@ -5,12 +5,12 @@ import { RepositoryModel } from '../_models/repository.model';
 import { DefaultRepositoryService } from '../_repositories/default.service';
 import { BasevegRepositoryService } from '../_repositories/baseveg.service';
 import { BaseflorRepositoryService } from '../_repositories/baseflor.service';
-import { BdtfxRepositoryService } from '../_repositories/bdtfx.service';
 import { BdtferRepositoryService } from '../_repositories/bdtfer.service';
 import { Pvf2RepositoryService } from '../_repositories/pvf2.service';
 import { ApdRepositoryService } from '../_repositories/apd.service';
 import { RepositoryItemModel } from '../_models/repository-item.model';
 import { isDefined } from '@angular/compiler/src/util';
+import { BdtfxRepositoryService } from '../_repositories/bdtfx.service';
 
 @Injectable({
   providedIn: 'root'
@@ -36,12 +36,14 @@ export class RepositoryService {
   constructor(
     private defaultRepositoryService: DefaultRepositoryService,
     private basevegRepoService: BasevegRepositoryService,
-    private pvf2RepoService: Pvf2RepositoryService
+    private pvf2RepoService: Pvf2RepositoryService,
+    private bdtfxRepoService: BdtfxRepositoryService
   ) {
 
     this.repo.push(
       this.basevegRepoService,
-      this.pvf2RepoService
+      this.pvf2RepoService,
+      this.bdtfxRepoService
     );
   }
 

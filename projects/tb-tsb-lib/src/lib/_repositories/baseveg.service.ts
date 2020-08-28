@@ -29,7 +29,7 @@ export class BasevegRepositoryService implements RepositoryModel {
           "query" : {
             "bool": {
               "must": {
-                "term" : { "syntaxonName": "${queryArray[0]}" }
+                "prefix": { "syntaxonName": { "value": "${queryArray[0]}" } }
               }
             }
           }
@@ -44,7 +44,7 @@ export class BasevegRepositoryService implements RepositoryModel {
       let esQueryBody = '';
       let i = 0;
       queryArray.forEach((queryItem) => {
-        esQueryBody += `{ "regexp": { "syntaxonName": "${queryItem}" } }`;
+        esQueryBody += `{ "prefix": { "syntaxonName": { "value": "${queryItem}" } } }`;
         esQueryBody += (i < queryArray.length - 1) ? ',' : '';
         i++;
       });
@@ -83,7 +83,7 @@ export class BasevegRepositoryService implements RepositoryModel {
   }
 
   findValidOccurenceByIdTaxo(idTaxo: string): Observable<any> {
-    idTaxo = idTaxo.replace('/', '\\\\\/');
+    idTaxo = idTaxo.replace(/\//gm, '\\\\\/');
     const esQuery = `
     {
       "query" : {

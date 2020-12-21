@@ -74,7 +74,7 @@ export class Pvf2RepositoryService implements RepositoryModel {
 
   findByIdNomen(idNomen) {
     const headers = new HttpHeaders({ 'Content-type': 'application/json' });
-    const request: Observable<any> = this.http.get(this.apiUrl + `?q=fixedCode:${idNomen}`, { headers });
+    const request: Observable<any> = this.http.get(this.apiUrl + `?q=CD_HAB:${idNomen}`, { headers });
     return request;
   }
 

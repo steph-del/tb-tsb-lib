@@ -15,7 +15,7 @@ export class Pvf2RepositoryService implements RepositoryModel {
   label = 'PVF2';
   apiUrl = `http://51.38.37.216:9200/pvf2/_search`;
   apiUrl2 = `http://51.38.37.216:9200/pvf2/pvf2/`;
-  levels = ['microcenosis'];
+  levels = ['microcenosis', 'synusy'];
   description_fr = `Prodrome des végétations de France. Référentiel syntaxonomique (végétations)
                     pour la France métropolitaine coordonné par le Museum national d\'Histoire
                     naturelle et la Société française de phytosociologie.`;
@@ -31,7 +31,7 @@ export class Pvf2RepositoryService implements RepositoryModel {
           "query" : {
             "bool": {
               "must": {
-                "term" : { "LB_HAB_FR": "${queryArray[0]}( )?[a-z]*" }
+                "prefix" : { "LB_HAB_FR": "${queryArray[0]}" }
               }
             }
           }
@@ -46,7 +46,7 @@ export class Pvf2RepositoryService implements RepositoryModel {
       let esQueryBody = '';
       let i = 0;
       queryArray.forEach((queryItem) => {
-        esQueryBody += `{ "regexp": { "LB_HAB_FR": "${queryItem}[a-z]*" } }`;
+        esQueryBody += `{ "prefix": { "LB_HAB_FR": "${queryItem}" } }`;
         esQueryBody += (i < queryArray.length - 1) ? ',' : '';
         i++;
       });

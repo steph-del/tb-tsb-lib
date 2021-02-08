@@ -15,7 +15,7 @@ export class BasevegRepositoryService implements RepositoryModel {
   label = 'baseveg';
   apiUrl = `http://51.38.37.216:9200/baseveg/_search`;
   apiUrl2 = `http://51.38.37.216:9200/baseveg/baseveg/`;
-  levels = ['synusy'];
+  levels = ['synusy', 'microcenosis'];
   description_fr = 'Référentiel syntaxonomique (végétations) pour la France métropolitaine issu du projet CATMINAT, par Philippe Julve.';
 
   constructor(private http: HttpClient) { }

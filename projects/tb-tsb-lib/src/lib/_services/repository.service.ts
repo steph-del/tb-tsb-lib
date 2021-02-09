@@ -11,6 +11,7 @@ import { ApdRepositoryService } from '../_repositories/apd.service';
 import { RepositoryItemModel } from '../_models/repository-item.model';
 import { isDefined } from '@angular/compiler/src/util';
 import { BdtfxRepositoryService } from '../_repositories/bdtfx.service';
+import { TaxrefRepositoryService } from '../_repositories/taxref.service';
 
 @Injectable({
   providedIn: 'root'
@@ -37,13 +38,15 @@ export class RepositoryService {
     private defaultRepositoryService: DefaultRepositoryService,
     private basevegRepoService: BasevegRepositoryService,
     private pvf2RepoService: Pvf2RepositoryService,
-    private bdtfxRepoService: BdtfxRepositoryService
+    private bdtfxRepoService: BdtfxRepositoryService,
+    private taxrefRepoService: TaxrefRepositoryService
   ) {
 
     this.repo.push(
       this.basevegRepoService,
       this.pvf2RepoService,
-      this.bdtfxRepoService
+      this.bdtfxRepoService,
+      this.taxrefRepoService
     );
   }
 

@@ -24,7 +24,7 @@
                     >
     <mat-autocomplete #auto="matAutocomplete" [autoActiveFirstOption]=true [displayWith]="showAuthor?displayInputWithAuthor.bind(this):displayInputWithoutAuthor.bind(this)">
       <mat-option *ngFor="let item of dataFromRepo" [value]="item">
-        <span [class.isNotSynonym]="!item.isSynonym">{{ item.name + (showAuthor ? (' ' + item.author) : '') }}</span>
+        <span [class.isNotSynonym]="!item.isSynonym">{{ item.name + (showAuthor && item.author !== null ? (' ' + item.author) : '') }}</span>
       </mat-option>
     </mat-autocomplete>
     <mat-spinner *ngIf="isLoading" matSuffix diameter="18"></mat-spinner>
